@@ -14,8 +14,8 @@ export default async function Home() {
 
   const cities = [
     "Taguig City",
-    "Mandaluyong City",
     "Makati City",
+    "Mandaluyong City",
     "Manila City",
     "Pasig City",
     "Baguio City",
@@ -60,7 +60,7 @@ export default async function Home() {
               </button>
             </div>
           </div>
-          <nav className="hs-scroll-nav-body flex flex-nowrap overflow-hidden scroll-smoothsnap-x snap-x-mandatory snap-mandatory flex flex-row gap-3 sm:gap-6 mb-6 pb-4">
+          <nav className="hs-scroll-nav-body flex flex-nowrap overflow-hidden scroll-smoothsnap-x snap-x-mandatory snap-mandatory flex flex-row gap-4 sm:gap-4 mb-6 pb-4">
             {cities.map((city) => (
               <CityCard
                 key={city}
@@ -92,7 +92,7 @@ export default async function Home() {
               </button>
             </div>
           </div>
-          <nav className="hs-scroll-nav-body flex flex-nowrap overflow-hidden snap-x snap-mandatory flex flex-row gap-3 sm:gap-6 mb-6 pb-4">
+          <nav className="hs-scroll-nav-body flex flex-nowrap overflow-hidden snap-x snap-mandatory flex flex-row gap-4 sm:gap-4 mb-6 pb-4">
             {coffeeShops.map((coffeeShop: CoffeeShop) => (
               <CoffeeCard
                 key={coffeeShop.id}
