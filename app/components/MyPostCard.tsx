@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { Post } from "@/types/post";
 import StarRatingDisplay from "@/app/components/StarRatingDisplay";
 import { timeAgo, toStringArray } from "@/app/utilities/utils";
@@ -22,11 +23,16 @@ export default function PostCard({ post, shopPhotos }: Props) {
 
   return (
     <div className="group flex flex-col gap-2 bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden p-6">
-      <div className="flex flex-row items-center gap-2">
-        <StarRatingDisplay value={Number(post.overall_score) || 0} size={22} />
-        <span className="text-sm font-bold text-gray-600 mt-1">
-          {post.overall_score}
-        </span>
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-row items-center gap-2">
+          <StarRatingDisplay
+            value={Number(post.overall_score) || 0}
+            size={22}
+          />
+          <span className="text-sm font-bold text-gray-600 mt-1">
+            {post.overall_score}
+          </span>
+        </div>
       </div>
       <p className="flex flex-row items-center gap-1 text-xs text-gray-500">
         <Clock size={16} />
@@ -104,6 +110,16 @@ export default function PostCard({ post, shopPhotos }: Props) {
           <PhotoGallery images={postPhotos.map((photo) => photo.url)} />
         </div>
       </div>
+      {post.shop && (
+        <div className="flex flex-row items-center gap-1 text-sm">
+          This review is posted on
+          <Link href={`/coffee-shops/${post.shop.slug}`}>
+            <span className=" font-semibold text-purple-500 hover:text-purple-600">
+              {post.shop.name}
+            </span>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

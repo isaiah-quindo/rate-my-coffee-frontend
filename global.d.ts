@@ -13,6 +13,9 @@ declare global {
 
     // Preline UI
     HSStaticMethods: IStaticMethods;
+
+    // MailerLite
+    ml: (action: string, ...args: any[]) => void;
   }
 }
 

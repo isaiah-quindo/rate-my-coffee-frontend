@@ -1,27 +1,48 @@
 "use client";
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 import SelectShopModal from "@/app/components/SelectShopModal";
 import { CoffeeShop } from "@/types/coffeeShop";
+import { User, LogOut } from "lucide-react";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 const Header = ({
   locations,
   coffeeShops,
+  writeReview = true,
 }: {
   locations?: { city_municipality: string; province: string | null }[];
   coffeeShops?: CoffeeShop[];
+  writeReview?: boolean;
 }) => {
+  const { user, logout, isLoading } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
   return (
     <>
       <header className="bg-white border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full">
         <nav className="relative max-w-[85rem] w-full md:flex md:items-center md:justify-between md:gap-3 mx-auto px-4 sm:px-6 lg:px-8 py-2 dark:bg-neutral-900">
           <div className="flex items-center justify-between">
-            <a
-              className="flex-none font-semibold text-xl text-black focus:outline-hidden focus:opacity-80 dark:text-white"
+            <Link
+              className="flex flex-row items-center gap-1 font-semibold text-xl text-black focus:outline-hidden focus:opacity-80 dark:text-white"
               href="/"
               aria-label="Brand"
             >
+              <Image
+                src="/images/logo-mark.svg"
+                alt="RateMyCoffee"
+                width={40}
+                height={40}
+              />
               RateMyCoffee
-            </a>
+            </Link>
             <div className="md:hidden">
               <button
                 type="button"
@@ -74,8 +95,8 @@ const Header = ({
             aria-labelledby="hs-header-classic-collapse"
           >
             <div className="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
-              <div className="py-2 md:py-0 flex flex-col md:flex-row md:items-center md:justify-end gap-0.5 md:gap-1">
-                <a
+              <div className="py-2 md:py-0 flex flex-col md:flex-row md:items-center md:justify-end gap-4 md:gap-4">
+                {/* <a
                   className="p-2 flex items-center text-sm text-purple-600 focus:outline-hidden focus:text-purple-600"
                   href="/"
                   aria-current="page"
@@ -96,39 +117,59 @@ const Header = ({
                     <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                   </svg>
                   Home
-                </a>
+                </a> */}
 
-                <div className="relative flex flex-wrap items-center gap-x-1.5 md:ps-2.5 mt-1 md:mt-0 md:ms-1.5 before:block before:absolute before:top-1/2 before:-start-px before:w-px before:h-4 before:bg-gray-300 before:-translate-y-1/2 dark:before:bg-neutral-700">
-                  <a
-                    className="p-2 w-full flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-                    href="#"
-                  >
-                    <svg
-                      className="shrink-0 size-4 me-3 md:me-2"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                <div className="relative flex flex-wrap items-center gap-x-2 md:ps-2.5 mt-1 md:mt-0 md:ms-1.5">
+                  {user ? (
+                    <div className="flex flex-row gap-2">
+                      <Link
+                        href="/profile"
+                        type="button"
+                        className="p-2 flex flex-row items-center flex-nowrap text-nowrap text-sm text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500"
+                        id="hs-dropdown-custom-trigger"
+                        data-hs-dropdown="#hs-dropdown-custom"
+                      >
+                        <User size={18} className="mr-2 flex-shrink-0" />
+                        {user.name}
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        disabled={isLoading}
+                        className="w-full flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isLoading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-800 dark:border-gray-400"></div>
+                            <span className="ml-2">Signing out...</span>
+                          </>
+                        ) : (
+                          <>
+                            <LogOut size={16} />
+                            <span>Sign out</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    <Link
+                      className="p-2 w-full flex items-center text-sm text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500"
+                      href="/login"
                     >
-                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </svg>
-                    Log in
-                  </a>
+                      <User size={18} className="mr-2" />
+                      Log in
+                    </Link>
+                  )}
                 </div>
 
-                <button
-                  type="button"
-                  data-hs-overlay="#selectShopModal"
-                  className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 focus:outline-hidden focus:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
-                >
-                  Write a review
-                </button>
+                {writeReview && (
+                  <button
+                    type="button"
+                    data-hs-overlay="#selectShopModal"
+                    className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 focus:outline-hidden focus:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+                  >
+                    Write a review
+                  </button>
+                )}
               </div>
             </div>
           </div>

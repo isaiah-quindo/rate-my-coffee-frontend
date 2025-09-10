@@ -1,0 +1,208 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/contexts/AuthContext";
+import { LoginRequest } from "@/types/auth";
+import { AuthError } from "@/app/utilities/authUtils";
+import Header from "../components/Header";
+import { KeyRound, Mail, CheckCircle2 } from "lucide-react";
+
+const LoginPage: React.FC = () => {
+  const [formData, setFormData] = useState<LoginRequest>({
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [generalError, setGeneralError] = useState<string>("");
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Clear field-specific error when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrors({});
+    setGeneralError("");
+
+    try {
+      await login(formData);
+      setShowSuccess(true);
+      // Redirect after showing success message
+      setTimeout(() => {
+        router.push("/");
+      }, 1500);
+    } catch (error) {
+      if (error instanceof AuthError) {
+        if (error.errors) {
+          // Convert array of errors to single error message for each field
+          const fieldErrors: Record<string, string> = {};
+          Object.entries(error.errors).forEach(([field, messages]) => {
+            fieldErrors[field] = Array.isArray(messages)
+              ? messages[0]
+              : messages;
+          });
+          setErrors(fieldErrors);
+        } else {
+          setGeneralError(error.message);
+        }
+      } else {
+        setGeneralError("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header writeReview={false} />
+      <div className="flex flex-1 items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8">
+          <div>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              Sign in to your account
+            </h2>
+            <p className="mt-2 text-center text-sm text-gray-600">
+              Or{" "}
+              <Link
+                href="/register"
+                className="font-medium text-purple-600 hover:text-purple-500"
+              >
+                create a new account
+              </Link>
+            </p>
+          </div>
+
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            {showSuccess ? (
+              <div className="rounded-md bg-green-50 border border-green-300 p-4 animate-slide-in">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <CheckCircle2
+                      className="h-5 w-5 text-green-700"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-sm font-medium text-green-700">
+                      You have successfully logged in!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : generalError ? (
+              <div className="rounded-md border border-red-300 bg-red-50 p-4 animate-slide-in">
+                <div className="text-sm text-red-700">{generalError}</div>
+              </div>
+            ) : null}
+
+            <div className="space-y-4">
+              <div>
+                <div className="relative">
+                  <input
+                    type="email"
+                    id="input-email-label"
+                    name="email"
+                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 ${
+                      errors.email ? "border-red-300" : "border-gray-200"
+                    }`}
+                    autoComplete="email"
+                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="name@example.com"
+                    aria-describedby="email-error"
+                  />
+                  <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 text-gray-500">
+                    <Mail size={16} />
+                  </div>
+                  {errors.email && (
+                    <div className="absolute inset-y-0 end-0 flex items-center pointer-events-none pe-3">
+                      <svg
+                        className="h-5 w-5 text-red-500"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                        aria-hidden="true"
+                      >
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                      </svg>
+                    </div>
+                  )}
+                  {errors.email && (
+                    <p className="text-sm text-red-600 mt-2" id="email-error">
+                      {errors.email}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <div className="relative">
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    className={`peer py-3 px-4 ps-11 block w-full bg-white border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none ${
+                      errors.password ? "border-red-300" : "border-gray-200"
+                    }`}
+                    autoComplete="current-password"
+                    required
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    placeholder="Enter your password"
+                  />
+                  <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-4 peer-disabled:opacity-50">
+                    <KeyRound size={16} />
+                  </div>
+                  {errors.password && (
+                    <p className="text-sm text-red-600 mt-2">
+                      {errors.password}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                disabled={isSubmitting || showSuccess}
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              >
+                {showSuccess
+                  ? "Success!"
+                  : isSubmitting
+                  ? "Signing in..."
+                  : "Sign in"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;

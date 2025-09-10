@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 import CoffeeCard from "@/app/components/CoffeeCard";
 import { CoffeeShop } from "@/types/coffeeShop";
 import { fetchCoffeeShopsAndLocations } from "@/app/utilities/dataUtils";
@@ -61,6 +62,7 @@ export default async function CityPage({ params }: PageProps) {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

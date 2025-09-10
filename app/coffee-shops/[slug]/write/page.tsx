@@ -1,7 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 import WriteReviewStepper from "@/app/components/WriteReviewStepper";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 import { CoffeeShop } from "@/types/coffeeShop";
 import { fetchCoffeeShopsAndLocations } from "@/app/utilities/dataUtils";
 
@@ -25,7 +27,7 @@ export default async function PostsPage({ params }: PageProps) {
   const { coffeeShops, locations } = await fetchCoffeeShopsAndLocations();
 
   return (
-    <>
+    <ProtectedRoute>
       <Header locations={locations} coffeeShops={coffeeShops} />
       <div className="flex flex-col gap-4 h-96 relative">
         <Image
@@ -42,6 +44,7 @@ export default async function PostsPage({ params }: PageProps) {
       <div className="flex flex-col gap-4 max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-8">
         <WriteReviewStepper shop={shop} />
       </div>
-    </>
+      <Footer />
+    </ProtectedRoute>
   );
 }

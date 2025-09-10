@@ -43,12 +43,36 @@
   }
 }
 
+/* Animations */
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation Classes */
+.animate-slide-in {
+  animation: slideInFromTop 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slide-in-delay-200 {
+  animation: slideInFromTop 0.5s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-slide-in-delay-300 {
+  animation: slideInFromTop 0.5s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-}
-
-.cs-sidebar {
-  width: 378px;
 }

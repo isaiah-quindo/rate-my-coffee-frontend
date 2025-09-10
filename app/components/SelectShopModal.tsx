@@ -2,8 +2,6 @@
 
 import React from "react";
 import { CoffeeShop } from "@/types/coffeeShop";
-import { useRouter } from "next/navigation";
-import { LocationItem } from "@/app/utilities/dataUtils";
 
 export default function SelectShopModal({
   locations,

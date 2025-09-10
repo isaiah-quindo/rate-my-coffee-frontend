@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { CoffeeShop } from "@/types/coffeeShop";
 import {
   ChevronLeft,
@@ -11,9 +11,11 @@ import {
 import StarRatingDisplay from "./StarRatingDisplay";
 import RangeSlider from "./RangeSlider";
 import { reviewModalConfigs } from "./reviewModals";
+import { useAuth } from "@/app/contexts/AuthContext";
+import Image from "next/image";
 
 export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
-  const BASE = process.env.NEXT_PUBLIC_BACKEND_URL ?? "";
+  const { user } = useAuth();
   const [coffeeQuality, setCoffeeQuality] = useState<number>(0);
   const [vibe, setVibe] = useState<number>(0);
   const [service, setService] = useState<number>(0);
@@ -34,8 +36,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
   const [flavour, setFlavour] = useState<number>(0);
   const [aftertaste, setAftertaste] = useState<number>(0);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [createdPost, setCreatedPost] = useState<{ id: number } | null>(null);
-  const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
+  // We'll use this later for redirecting after review submission
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const hasAnyRating =
     coffeeQuality > 0 ||
@@ -50,11 +51,6 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
     food > 0 ||
     locationConvenience > 0 ||
     consistency > 0;
-
-  const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   // Handle file selection
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +121,8 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
         ordered_items: cleanedOrderedItems,
         taste_profile:
           Object.keys(tasteProfile).length > 0 ? tasteProfile : null,
+        author_user_id: user?.id || null,
+        is_anonymous: true,
       };
 
       const BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -143,19 +141,28 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to submit review: ${response.status}`);
+        let errorMessage = `Failed to submit review: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          console.error("Review submission error data:", errorData);
+          if (errorData.message) {
+            errorMessage = errorData.message;
+          }
+        } catch {
+          const text = await response.text();
+          console.error("Failed to parse error response:", text);
+        }
+        throw new Error(errorMessage);
       }
 
       const reviewData = await response.json();
-      setCreatedPost({ id: reviewData.id });
 
       // Upload selected photos with the post_id
       if (selectedFiles.length > 0) {
         await uploadPhotosWithPostId(reviewData.id, selectedFiles);
       }
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
+      console.error("Failed to submit review:", err);
     } finally {
       setIsSubmitting(false);
     }
@@ -456,7 +463,6 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                     <input
                       type="file"
                       id="photo-upload"
-                      multiple
                       accept="image/png,image/jpeg,image/jpg,image/webp"
                       onChange={handleFileSelect}
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -500,9 +506,11 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                       {selectedFiles.map((file, index) => (
                         <div key={index} className="relative group">
-                          <img
+                          <Image
                             src={URL.createObjectURL(file)}
                             alt={`Preview ${index + 1}`}
+                            width={200}
+                            height={200}
                             className="w-full h-auto object-cover rounded-lg border border-gray-200"
                           />
                           <button
@@ -605,7 +613,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                   coffee you ordered.
                   <span className="block text-gray-400 text-sm font-normal">
                     Hey! If you know your coffee taste profile, you can help us
-                    make a more accurate review. It's optional.
+                    make a more accurate review. It&apos;s optional.
                   </span>
                 </p>
                 <div className="h-auto flex flex-col gap-4 items-start ">

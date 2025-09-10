@@ -45,8 +45,8 @@ export default function PaginatedPosts({
       const nextPosts: Post[] = Array.isArray(json?.posts) ? json.posts : [];
       setPosts((prev) => [...prev, ...nextPosts]);
       setPage(nextPage);
-    } catch (e: any) {
-      setError(e?.message ?? "Failed to load more posts");
+    } catch (e) {
+      setError((e as string) ?? "Failed to load more posts");
     } finally {
       setIsLoading(false);
     }

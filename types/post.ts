@@ -53,6 +53,11 @@ export interface Post {
   // Optional relations when included by API
   photos?: PostPhoto[];
   votes?: PostVote[];
+  shop?: {
+    id: number;
+    name: string;
+    slug: string | null;
+  };
 
   total: number;
 }

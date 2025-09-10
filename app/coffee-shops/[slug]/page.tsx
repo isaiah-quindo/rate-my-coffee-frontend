@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 import { CoffeeShop, ShopHour } from "@/types/coffeeShop";
 import { fetchCoffeeShopsAndLocations } from "@/app/utilities/dataUtils";
 import {
@@ -159,153 +160,161 @@ export default async function CoffeeShopPage({ params }: PageProps) {
             </div>
 
             <div className="reviews-section flex flex-col gap-4">
-              <div className="flex flex-row items-center justify-between">
-                <h3 className="text-xl font-semibold text-gray-800">
-                  Reviews ({shop.posts_total})
-                </h3>
-                <a
-                  href={`/coffee-shops/${shop.slug}/write`}
-                  className="py-2 px-3 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 focus:outline-hidden focus:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
-                >
-                  Write a review
-                </a>
-              </div>
-              <PaginatedPosts
-                slug={shop.slug ?? ""}
-                initialPosts={shop.posts}
-                total={shop.posts_total}
-                pageSize={5}
-                shopPhotos={shop.photos}
-              />
-            </div>
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="col-span-2 flex-1 flex flex-col gap-4">
+                  <div className="flex flex-row items-center justify-between">
+                    <h3 className="text-xl font-semibold text-gray-800">
+                      Reviews ({shop.posts_total})
+                    </h3>
+                    <a
+                      href={`/coffee-shops/${shop.slug}/write`}
+                      className="py-2 px-3 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 focus:outline-hidden focus:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+                    >
+                      Write a review
+                    </a>
+                  </div>
+                  <PaginatedPosts
+                    slug={shop.slug ?? ""}
+                    initialPosts={shop.posts}
+                    total={shop.posts_total}
+                    pageSize={5}
+                    shopPhotos={shop.photos}
+                  />
+                </div>
+                <div className="cs-sidebar flex flex-col gap-4">
+                  <div className="group flex flex-col gap-4 bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden p-6">
+                    <h4 className="text-lg font-semibold text-gray-800">
+                      Contact Information
+                    </h4>
+                    <div className="flex flex-col gap-2">
+                      {shop.phone && (
+                        <span className="flex flex-row items-center gap-2 text-gray-500">
+                          <Phone size={16} />
+                          <a
+                            className="text-purple-500 hover:text-purple-600"
+                            href={`tel:${shop.phone}`}
+                          >
+                            {shop.phone}
+                          </a>
+                        </span>
+                      )}
+                      {shop.email && (
+                        <span className="flex flex-row items-center gap-2 text-gray-500">
+                          <Mail size={16} />
+                          <a
+                            className="text-purple-500 hover:text-purple-600"
+                            href={`mailto:${shop.email}`}
+                          >
+                            {shop.email}
+                          </a>
+                        </span>
+                      )}
+                      {shop.website_url && (
+                        <span className="flex flex-row items-center gap-2 text-gray-500">
+                          <Globe size={16} />
+                          <a
+                            className="text-purple-500 hover:text-purple-600"
+                            href={shop.website_url ?? ""}
+                          >
+                            {shop.website_url}
+                          </a>
+                        </span>
+                      )}
+                      {shop.facebook_url && (
+                        <span className="flex flex-row items-center gap-2 text-gray-500">
+                          <Facebook size={16} />
+                          <a
+                            className="text-purple-500 hover:text-purple-600"
+                            href={shop.facebook_url ?? ""}
+                          >
+                            {shop.facebook_url}
+                          </a>
+                        </span>
+                      )}
+                      {shop.instagram_handle && (
+                        <span className="flex flex-row items-center gap-2 text-gray-500">
+                          <Instagram size={16} />
+                          <a
+                            className="text-purple-500 hover:text-purple-600"
+                            href={shop.instagram_handle ?? ""}
+                          >
+                            {shop.instagram_handle}
+                          </a>
+                        </span>
+                      )}
+                    </div>
+                  </div>
 
-          <div className="cs-sidebar flex flex-col gap-4">
-            <div className="group flex flex-col gap-4 bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden p-6">
-              <h4 className="text-lg font-semibold text-gray-800">
-                Contact Information
-              </h4>
-              <div className="flex flex-col gap-2">
-                {shop.phone && (
-                  <span className="flex flex-row items-center gap-2 text-gray-500">
-                    <Phone size={16} />
-                    <a
-                      className="text-purple-500 hover:text-purple-600"
-                      href={`tel:${shop.phone}`}
-                    >
-                      {shop.phone}
-                    </a>
-                  </span>
-                )}
-                {shop.email && (
-                  <span className="flex flex-row items-center gap-2 text-gray-500">
-                    <Mail size={16} />
-                    <a
-                      className="text-purple-500 hover:text-purple-600"
-                      href={`mailto:${shop.email}`}
-                    >
-                      {shop.email}
-                    </a>
-                  </span>
-                )}
-                {shop.website_url && (
-                  <span className="flex flex-row items-center gap-2 text-gray-500">
-                    <Globe size={16} />
-                    <a
-                      className="text-purple-500 hover:text-purple-600"
-                      href={shop.website_url ?? ""}
-                    >
-                      {shop.website_url}
-                    </a>
-                  </span>
-                )}
-                {shop.facebook_url && (
-                  <span className="flex flex-row items-center gap-2 text-gray-500">
-                    <Facebook size={16} />
-                    <a
-                      className="text-purple-500 hover:text-purple-600"
-                      href={shop.facebook_url ?? ""}
-                    >
-                      {shop.facebook_url}
-                    </a>
-                  </span>
-                )}
-                {shop.instagram_handle && (
-                  <span className="flex flex-row items-center gap-2 text-gray-500">
-                    <Instagram size={16} />
-                    <a
-                      className="text-purple-500 hover:text-purple-600"
-                      href={shop.instagram_handle ?? ""}
-                    >
-                      {shop.instagram_handle}
-                    </a>
-                  </span>
-                )}
-              </div>
-            </div>
+                  <div className="group flex flex-col gap-2 bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden p-6">
+                    <h4 className="flex flex-row items-center gap-2 text-lg font-semibold text-gray-800 mb-0">
+                      <Clock size={16} /> Shop Hours
+                    </h4>
+                    <div className="grid grid-cols-2 gap-1 text-sm">
+                      {Array.from({ length: 7 }).map((_, idx) => (
+                        <React.Fragment key={idx}>
+                          <span className="font-bold">
+                            {
+                              [
+                                "Monday",
+                                "Tuesday",
+                                "Wednesday",
+                                "Thursday",
+                                "Friday",
+                                "Saturday",
+                                "Sunday",
+                              ][idx]
+                            }
+                          </span>
+                          <span className="text-gray-500 text-right">
+                            {Array.isArray(shop.hours)
+                              ? (() => {
+                                  const entries = shop.hours.filter(
+                                    (h: ShopHour) => h.day_of_week === idx
+                                  );
+                                  if (entries.length === 0) return "Closed";
+                                  const parts = entries.map((h: ShopHour) =>
+                                    h.is_24h
+                                      ? "Open 24h"
+                                      : h.open_time && h.close_time
+                                      ? `${convertTo12Hour(
+                                          h.open_time
+                                        )} - ${convertTo12Hour(h.close_time)}`
+                                      : "Closed"
+                                  );
+                                  return parts.join(", ") || "Closed";
+                                })()
+                              : "Closed"}
+                          </span>
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  </div>
 
-            <div className="group flex flex-col gap-2 bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden p-6">
-              <h4 className="flex flex-row items-center gap-2 text-lg font-semibold text-gray-800 mb-0">
-                <Clock size={16} /> Shop Hours
-              </h4>
-              <div className="grid grid-cols-2 gap-1 text-sm">
-                {Array.from({ length: 7 }).map((_, idx) => (
-                  <React.Fragment key={idx}>
-                    <span className="font-bold">
-                      {
-                        [
-                          "Monday",
-                          "Tuesday",
-                          "Wednesday",
-                          "Thursday",
-                          "Friday",
-                          "Saturday",
-                          "Sunday",
-                        ][idx]
-                      }
-                    </span>
-                    <span className="text-gray-500 text-right">
-                      {Array.isArray(shop.hours)
-                        ? (() => {
-                            const entries = shop.hours.filter(
-                              (h: ShopHour) => h.day_of_week === idx
-                            );
-                            if (entries.length === 0) return "Closed";
-                            const parts = entries.map((h: ShopHour) =>
-                              h.is_24h
-                                ? "Open 24h"
-                                : h.open_time && h.close_time
-                                ? `${convertTo12Hour(
-                                    h.open_time
-                                  )} - ${convertTo12Hour(h.close_time)}`
-                                : "Closed"
-                            );
-                            return parts.join(", ") || "Closed";
-                          })()
-                        : "Closed"}
-                    </span>
-                  </React.Fragment>
-                ))}
+                  <div className="group flex flex-col gap-2 bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden p-6">
+                    <h4 className="flex flex-row items-center gap-2 text-lg font-semibold text-gray-800 mb-0">
+                      Photos
+                    </h4>
+                    {!shop.photos ||
+                      (shop.photos.length === 0 && (
+                        <p className="text-sm text-gray-400">
+                          No photos uploaded yet
+                        </p>
+                      ))}
+                    <div className="grid grid-cols-2 gap-2">
+                      <PhotoGallery
+                        images={shop.photos.map(
+                          (photo: { url: string }) => photo.url
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            <div className="group flex flex-col gap-2 bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden p-6">
-              <h4 className="flex flex-row items-center gap-2 text-lg font-semibold text-gray-800 mb-0">
-                Photos
-              </h4>
-              {!shop.photos ||
-                (shop.photos.length === 0 && (
-                  <p className="text-sm text-gray-400">
-                    No photos uploaded yet
-                  </p>
-                ))}
-              <PhotoGallery
-                images={shop.photos.map((photo: { url: string }) => photo.url)}
-              />
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

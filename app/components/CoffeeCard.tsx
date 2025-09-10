@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { CoffeeShop } from "@/types/coffeeShop";
 import StarRatingDisplay from "./StarRatingDisplay";
 import { MapPin } from "lucide-react";
@@ -10,12 +11,14 @@ const CoffeeCard: React.FC<{
 }> = async ({ coffeeShop, imageUrl }) => {
   return (
     <Link href={`/coffee-shops/${coffeeShop.slug}`}>
-      <div className="group flex flex-col h-full bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden hover:shadow-lg transition-all duration-400 ease-in-out">
+      <div className="max-w-96 min-w-73 group flex flex-col h-full bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden hover:shadow-lg transition-all duration-400 ease-in-out">
         <div className="relative overflow-hidden">
-          <img
+          <Image
             src={imageUrl}
             alt={coffeeShop.name}
             className="h-52 w-full object-cover rounded-t-xl hover:scale-105 transition-all duration-400 ease-in-out"
+            width={500}
+            height={500}
           />
         </div>
         <div className="flex flex-col gap-2 p-4 md:p-6">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
+import { AuthProvider } from "./contexts/AuthContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,10 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <PrelineScriptWrapper />
       </body>
     </html>

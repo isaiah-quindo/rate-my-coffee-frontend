@@ -49,7 +49,7 @@ const Hero = ({
   }
   return (
     <div className="relative overflow-hidden backdrop-grayscale bg-[url('/images/hero-bg.jpg')] bg-cover bg-center ">
-      <div className="backdrop-blur-sm backdrop-opacity-70">
+      <div className="backdrop-blur-sm backdrop-opacity-100">
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-24">
           <div className="text-center">
             <h1 className="text-4xl sm:text-6xl font-bold text-white mb-4">
@@ -153,7 +153,7 @@ const Hero = ({
               </form>
               <div className="hidden md:block absolute top-0 end-0 -translate-y-12 translate-x-20">
                 <svg
-                  className="w-16 h-auto text-orange-500"
+                  className="w-16 h-auto text-purple-500"
                   width="121"
                   height="135"
                   viewBox="0 0 121 135"
@@ -182,7 +182,7 @@ const Hero = ({
               </div>
               <div className="hidden md:block absolute bottom-0 start-0 translate-y-10 -translate-x-32">
                 <svg
-                  className="w-40 h-auto text-cyan-500"
+                  className="w-40 h-auto text-purple-700"
                   width="347"
                   height="188"
                   viewBox="0 0 347 188"

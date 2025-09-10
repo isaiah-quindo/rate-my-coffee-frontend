@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 type Props = {
   images: string[];
@@ -10,16 +11,20 @@ export default function PhotoGallery({ images }: Props) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [current, setCurrent] = React.useState(0);
 
-  if (!images || images.length === 0) return null;
-
-  const openAt = (index: number) => {
+  const openAt = React.useCallback((index: number) => {
     setCurrent(index);
     setIsOpen(true);
-  };
+  }, []);
 
-  const close = () => setIsOpen(false);
-  const prev = () => setCurrent((i) => (i - 1 + images.length) % images.length);
-  const next = () => setCurrent((i) => (i + 1) % images.length);
+  const close = React.useCallback(() => setIsOpen(false), []);
+  const prev = React.useCallback(
+    () => setCurrent((i) => (i - 1 + images.length) % images.length),
+    [images.length]
+  );
+  const next = React.useCallback(
+    () => setCurrent((i) => (i + 1) % images.length),
+    [images.length]
+  );
 
   React.useEffect(() => {
     if (!isOpen) return;
@@ -30,10 +35,12 @@ export default function PhotoGallery({ images }: Props) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [isOpen]);
+  }, [isOpen, prev, next, close]);
+
+  if (!images || images.length === 0) return null;
 
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <>
       {images.map((src, idx) => (
         <button
           key={src + idx}
@@ -41,9 +48,11 @@ export default function PhotoGallery({ images }: Props) {
           onClick={() => openAt(idx)}
           className="w-40 h-40 hover:shadow-lg hover:scale-105 transition-all duration-400 ease-in-out"
         >
-          <img
+          <Image
             src={src}
             alt={`Photo ${idx + 1}`}
+            width={160}
+            height={160}
             className="w-full h-full object-cover rounded-xl cursor-pointer"
           />
         </button>
@@ -58,9 +67,11 @@ export default function PhotoGallery({ images }: Props) {
             className="relative max-w-[90vw] max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
+            <Image
               src={images[current]}
               alt={`Photo ${current + 1}`}
+              width={1200}
+              height={800}
               className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg"
             />
             <button
@@ -94,6 +105,6 @@ export default function PhotoGallery({ images }: Props) {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
