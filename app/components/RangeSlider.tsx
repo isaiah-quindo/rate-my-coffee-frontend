@@ -1,5 +1,5 @@
 "use client";
-
+// RangeSlider component used in WriteReviewStepper.tsx
 import React from "react";
 
 interface RangeSliderProps {

@@ -1,3 +1,5 @@
+// These are modals used to display info about the taste profile
+
 export type ModalRow = { rating: number; description: string };
 
 export type ModalConfig = {

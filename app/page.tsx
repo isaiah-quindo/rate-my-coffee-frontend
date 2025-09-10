@@ -16,6 +16,7 @@ export default async function Home() {
     "Taguig City",
     "Makati City",
     "Mandaluyong City",
+    "Quezon City",
     "Manila City",
     "Pasig City",
     "Baguio City",

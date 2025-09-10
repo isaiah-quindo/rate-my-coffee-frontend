@@ -1,5 +1,5 @@
 "use client";
-
+// SelectShopModal component used in Header when you click write a review
 import React from "react";
 import { CoffeeShop } from "@/types/coffeeShop";
 
