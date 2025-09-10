@@ -8,6 +8,7 @@ import Footer from "@/app/components/Footer";
 import MyReviews from "./MyReviews";
 import { User2, Mail, KeyRound } from "lucide-react";
 import { AuthError } from "@/app/utilities/authUtils";
+import { fetchCoffeeShopsAndLocations } from "@/app/utilities/dataUtils";
 
 interface ProfileFormData {
   name: string;
@@ -34,6 +35,9 @@ const ProfilePage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState<"info" | "password">("info");
+  const [coffeeShops, setCoffeeShops] = useState<any[]>([]);
+  const [locations, setLocations] = useState<any[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -128,13 +132,30 @@ const ProfilePage = () => {
     }
   }, [isLoading, user, router]);
 
+  // Fetch coffee shops and locations data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { coffeeShops, locations } = await fetchCoffeeShopsAndLocations();
+        setCoffeeShops(coffeeShops);
+        setLocations(locations);
+      } catch (error) {
+        console.error("Failed to fetch coffee shops and locations:", error);
+      } finally {
+        setIsLoadingData(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   if (!user) {
     return null;
   }
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header locations={locations} coffeeShops={coffeeShops} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 mb-8">

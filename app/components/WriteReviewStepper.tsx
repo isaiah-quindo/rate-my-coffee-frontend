@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CoffeeShop } from "@/types/coffeeShop";
 import {
   ChevronLeft,
@@ -12,6 +12,7 @@ import StarRatingDisplay from "./StarRatingDisplay";
 import RangeSlider from "./RangeSlider";
 import { reviewModalConfigs } from "./reviewModals";
 import { useAuth } from "@/app/contexts/AuthContext";
+import { authService } from "@/app/utilities/authUtils";
 import Image from "next/image";
 
 export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
@@ -51,6 +52,46 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
     food > 0 ||
     locationConvenience > 0 ||
     consistency > 0;
+
+  // Initialize stepper after component mounts
+  useEffect(() => {
+    const initStepper = () => {
+      if (
+        window.HSStaticMethods &&
+        typeof window.HSStaticMethods.autoInit === "function"
+      ) {
+        window.HSStaticMethods.autoInit();
+      }
+    };
+
+    // Initialize immediately
+    initStepper();
+
+    // Also initialize after a short delay to ensure DOM is ready
+    const timer = setTimeout(initStepper, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Add validation for stepper navigation
+  useEffect(() => {
+    const handleStepperValidation = () => {
+      const nextButton = document.querySelector(
+        "[data-hs-stepper-next-btn]"
+      ) as HTMLButtonElement;
+      if (nextButton) {
+        // Enable/disable next button based on validation
+        nextButton.disabled = !hasAnyRating;
+      }
+    };
+
+    // Run validation when ratings change
+    handleStepperValidation();
+
+    // Also run validation after a short delay to ensure DOM is updated
+    const timer = setTimeout(handleStepperValidation, 100);
+    return () => clearTimeout(timer);
+  }, [hasAnyRating]);
 
   // Handle file selection
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,6 +176,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          Authorization: `Bearer ${authService.getToken()}`,
         },
         body: JSON.stringify(payload),
         credentials: "include",
@@ -534,7 +576,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
             </div>
             {/* End Second Content */}
 
-            {/* First Content */}
+            {/* Third Content */}
             <div
               data-hs-stepper-content-item='{
         "index": 3
@@ -754,7 +796,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 </div>
               </div>
             </div>
-            {/* End First Content */}
+            {/* End Third Content */}
 
             {/* Final Content */}
             <div
@@ -796,6 +838,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 type="button"
                 className="py-2 px-3 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-transparent bg-purple-600 text-white hover:bg-purple-700 focus:outline-hidden focus:bg-purple-700 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
                 data-hs-stepper-next-btn=""
+                disabled={!hasAnyRating}
               >
                 Next
                 <ChevronRight />
