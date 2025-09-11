@@ -52,12 +52,9 @@ const Hero = ({
       <div className="backdrop-blur-sm backdrop-opacity-100">
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-24">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-6xl font-bold text-white mb-4">
-              Saan ba pwede mag kape,
+            <h1 className="max-w-3xl mx-auto text-4xl sm:text-6xl font-bold text-white mb-4">
+              Saan ba pwede mag kape, na masarap?
             </h1>
-            <p className="mt-3 text-4xl sm:text-6xl font-bold text-white">
-              na masarap?
-            </p>
 
             <div className="mt-7 sm:mt-12 mx-auto max-w-xl relative">
               <form>
@@ -101,11 +98,11 @@ const Hero = ({
                         </div>
                       </div>
                       {showSuggestions && filteredLocations.length > 0 && (
-                        <div className="absolute z-50 w-full max-h-72 p-1 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-900 dark:border-neutral-700">
+                        <div className="absolute z-50 w-full max-h-72 p-1 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
                           {filteredLocations.map((location, index) => (
                             <div
                               key={index}
-                              className="cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800"
+                              className="cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-hidden focus:bg-gray-100"
                               onClick={() => handleLocationSelect(location)}
                             >
                               <div className="flex justify-between items-center w-full">

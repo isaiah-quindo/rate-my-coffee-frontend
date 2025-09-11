@@ -104,7 +104,7 @@ const Footer = () => {
           </div>
           {/* End Grid */}
 
-          <div className="mt-5 sm:mt-12 grid gap-y-2 sm:gap-y-0 sm:flex sm:justify-between sm:items-center">
+          <div className="mt-5 sm:mt-12 grid gap-y-2 sm:gap-y-0 sm:flex sm:justify-between sm:items-center px-5 lg:px-0">
             <div className="flex flex-wrap justify-between items-center gap-2">
               <p className="text-sm text-gray-400">© 2025 RateMyCoffee.</p>
             </div>

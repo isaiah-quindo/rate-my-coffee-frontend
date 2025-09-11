@@ -23,7 +23,7 @@ const CoffeeCard: React.FC<{
         </div>
         <div className="flex flex-col gap-2 p-4 md:p-6">
           <div className="flex flex-col">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-neutral-300">
+            <h3 className="text-xl font-semibold text-gray-800">
               {coffeeShop.name}
             </h3>
             <div className="flex flex-row items-center gap-1">

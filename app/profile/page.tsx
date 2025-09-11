@@ -225,7 +225,7 @@ const ProfilePage = () => {
                       type="text"
                       id="name"
                       name="name"
-                      className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 ${
+                      className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none ${
                         errors.name ? "border-red-300" : "border-gray-200"
                       }`}
                       value={formData.name}

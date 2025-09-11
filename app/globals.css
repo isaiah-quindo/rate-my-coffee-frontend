@@ -7,18 +7,7 @@
 /* Plugins */
 @plugin "@tailwindcss/forms";
 
-/* Fix modal z-index issues */
-#selectShopModal-backdrop {
-  z-index: 9998 !important;
-}
 
-#selectShopModal {
-  z-index: 9999 !important;
-}
-
-#selectShopModal .hs-overlay-content {
-  z-index: 10000 !important;
-}
 
 :root {
   --background: #ffffff;
@@ -36,11 +25,19 @@
   --color-purple-700: #6941C6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+
+/* Fix modal z-index issues */
+#selectShopModal-backdrop {
+  z-index: 9998 !important;
+}
+
+#selectShopModal {
+  z-index: 9999 !important;
+}
+
+#selectShopModal .hs-overlay-content {
+  z-index: 10000 !important;
 }
 
 /* Animations */

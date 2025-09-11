@@ -123,7 +123,7 @@ const LoginPage: React.FC = () => {
                     type="email"
                     id="input-email-label"
                     name="email"
-                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 ${
+                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none ${
                       errors.email ? "border-red-300" : "border-gray-200"
                     }`}
                     autoComplete="email"
