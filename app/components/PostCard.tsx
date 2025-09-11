@@ -74,9 +74,9 @@ export default function PostCard({ post, shopPhotos }: Props) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="flex flex-col gap-2 flex-wrap">
           {post.taste_profile && (
-            <h4 className="text-sm font-semibold text-gray-800 col-span-2">
+            <h4 className="text-sm font-semibold text-gray-800 w-full">
               Taste Profile
             </h4>
           )}
