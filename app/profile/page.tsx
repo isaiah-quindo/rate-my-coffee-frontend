@@ -8,7 +8,8 @@ import Footer from "@/app/components/Footer";
 import MyReviews from "./MyReviews";
 import { User2, Mail, KeyRound } from "lucide-react";
 import { AuthError } from "@/app/utilities/authUtils";
-import { fetchCoffeeShopsAndLocations } from "@/app/utilities/dataUtils";
+import { fetchCoffeeShopsAndLocations, type LocationItem } from "@/app/utilities/dataUtils";
+import type { CoffeeShop } from "@/types/coffeeShop";
 
 interface ProfileFormData {
   name: string;
@@ -35,9 +36,8 @@ const ProfilePage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState<"info" | "password">("info");
-  const [coffeeShops, setCoffeeShops] = useState<any[]>([]);
-  const [locations, setLocations] = useState<any[]>([]);
-  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [coffeeShops, setCoffeeShops] = useState<CoffeeShop[]>([]);
+  const [locations, setLocations] = useState<LocationItem[]>([]);
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -142,7 +142,7 @@ const ProfilePage = () => {
       } catch (error) {
         console.error("Failed to fetch coffee shops and locations:", error);
       } finally {
-        setIsLoadingData(false);
+        // no-op
       }
     };
 
