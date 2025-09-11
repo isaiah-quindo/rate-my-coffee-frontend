@@ -9,7 +9,7 @@ export type LocationItem = {
  * Fetches all coffee shops from the API
  */
 export async function fetchAllCoffeeShops(): Promise<CoffeeShop[]> {
-  const BASE = process.env.BACKEND_URL;
+  const BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
   const res = await fetch(`${BASE}/api/coffee-shops`, {
     cache: "no-store",
   });

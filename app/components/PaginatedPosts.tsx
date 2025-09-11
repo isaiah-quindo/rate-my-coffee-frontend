@@ -31,8 +31,8 @@ export default function PaginatedPosts({
     setIsLoading(true);
     setError(null);
     try {
-      const BASE = process.env.BACKEND_URL as string | undefined;
-      if (!BASE) throw new Error("Missing BACKEND_URL");
+      const BASE = process.env.NEXT_PUBLIC_BACKEND_URL as string | undefined;
+      if (!BASE) throw new Error("Missing NEXT_PUBLIC_BACKEND_URL");
       const nextPage = page + 1;
       const res = await fetch(
         `${BASE}/api/coffee-shops/${encodeURIComponent(

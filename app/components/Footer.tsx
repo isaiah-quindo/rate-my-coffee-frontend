@@ -74,7 +74,7 @@ const Footer = () => {
                   </Link>
                 </p>
                 <p>
-                  <Link
+                  {/* <Link
                     className="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 focus:outline-hidden focus:text-gray-200"
                     href="/privacy-policy"
                   >
@@ -87,7 +87,7 @@ const Footer = () => {
                     href="/terms"
                   >
                     Terms and Conditions
-                  </Link>
+                  </Link> */}
                 </p>
               </div>
             </div>
