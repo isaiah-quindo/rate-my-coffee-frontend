@@ -104,7 +104,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
   };
 
   const uploadPhotosWithPostId = async (postId: number, files: File[]) => {
-    const BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
+    const BASE = process.env.BACKEND_URL;
 
     for (const file of files) {
       try {
@@ -166,7 +166,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
         is_anonymous: true,
       };
 
-      const BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const BASE = process.env.BACKEND_URL;
       const endpoint = `${BASE ?? ""}/api/coffee-shops/${encodeURIComponent(
         String(shop.id)
       )}/reviews`;

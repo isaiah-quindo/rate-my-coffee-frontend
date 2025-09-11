@@ -10,7 +10,7 @@ type PageProps = {
 };
 
 export default async function CityPage({ params }: PageProps) {
-  const BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const BASE = process.env.BACKEND_URL;
   const { city } = await params;
   const cityName = city
     .split("-")

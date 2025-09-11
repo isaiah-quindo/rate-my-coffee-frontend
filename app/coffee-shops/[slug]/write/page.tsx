@@ -12,7 +12,7 @@ type PageProps = {
 };
 
 export default async function PostsPage({ params }: PageProps) {
-  const BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const BASE = process.env.BACKEND_URL;
   const { slug } = await params;
   const res = await fetch(
     `${BASE}/api/coffee-shops/${encodeURIComponent(slug)}`,

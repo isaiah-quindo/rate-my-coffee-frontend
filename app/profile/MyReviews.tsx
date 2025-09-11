@@ -26,8 +26,8 @@ export default function MyReviews({}: Props) {
     setError(null);
 
     try {
-      const BASE = process.env.NEXT_PUBLIC_BACKEND_URL as string | undefined;
-      if (!BASE) throw new Error("Missing NEXT_PUBLIC_BACKEND_URL");
+      const BASE = process.env.BACKEND_URL as string | undefined;
+      if (!BASE) throw new Error("Missing BACKEND_URL");
 
       const res = await fetch(
         `${BASE}/api/users/me/posts?posts_per_page=${pageSize}&posts_page=${pageToLoad}&include=shop`,
