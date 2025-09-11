@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
+import { Metadata } from "next";
 import { CoffeeShop, ShopHour } from "@/types/coffeeShop";
 import { fetchCoffeeShopsAndLocations } from "@/app/utilities/dataUtils";
 import {
@@ -30,21 +31,62 @@ import { convertTo12Hour } from "@/app/utilities/utils";
 import PaginatedPosts from "@/app/components/PaginatedPosts";
 
 type PageProps = {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
-export default async function CoffeeShopPage({ params }: PageProps) {
+async function fetchShopBySlug(slug: string): Promise<CoffeeShop> {
   const BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
-  const { slug } = await params;
-
-  const res = await fetch(
-    `${BASE}/api/coffee-shops/${encodeURIComponent(slug)}`,
+  const res = await fetch(`${BASE}/api/coffee-shops/${encodeURIComponent(slug)}`,
     {
       cache: "no-store",
       headers: { Accept: "application/json" },
     }
   );
-  const shop: CoffeeShop = await res.json();
+  if (!res.ok) {
+    throw new Error(`Failed to load coffee shop: ${slug}`);
+  }
+  return res.json();
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = params;
+  let shop: CoffeeShop | null = null;
+  try {
+    shop = await fetchShopBySlug(slug);
+  } catch (_) {
+    // If shop fetch fails, fall back to generic metadata
+  }
+
+  if (!shop) {
+    return {
+      title: `Coffee Shop | RateMyCoffee`,
+      description: "Discover and review coffee shops.",
+    };
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const ogImage = shop.cover_photo?.url || shop.photos?.[0]?.url || "/default-og.png";
+
+  return {
+    title: `${shop.name} | RateMyCoffee`,
+    description: shop.description ?? "Discover this coffee shop on RateMyCoffee.",
+    keywords: shop.tags ?? [],
+    openGraph: {
+      title: shop.name,
+      description: shop.description ?? undefined,
+      images: [ogImage],
+      url: siteUrl ? `${siteUrl}/coffee-shops/${slug}` : undefined,
+      type: "article",
+    },
+    alternates: siteUrl
+      ? { canonical: `${siteUrl}/coffee-shops/${slug}` }
+      : undefined,
+  };
+}
+
+export default async function CoffeeShopPage({ params }: PageProps) {
+  const { slug } = params;
+  const shop = await fetchShopBySlug(slug);
 
   // Fetch all coffee shops and locations for the modal
   const { coffeeShops: allShops, locations: uniqueLocations } =

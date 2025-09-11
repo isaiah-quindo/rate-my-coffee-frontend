@@ -4,9 +4,25 @@ import Hero from "./components/Hero";
 import CoffeeCard from "./components/CoffeeCard";
 import CityCard from "./components/CityCard";
 import Link from "next/link";
+import { Metadata } from "next";
 import { fetchCoffeeShopsAndLocations } from "./utilities/dataUtils";
 import { CoffeeShop } from "@/types/coffeeShop";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "RateMyCoffee",
+    description: "Discover the best coffee shops in your area.",
+    keywords: ["coffee", "coffee shops", "coffee reviews", "coffee ratings"],
+    openGraph: {
+      title: "RateMyCoffee",
+      description: "Discover the best coffee shops in your area.",
+      images: ["/images/default-cover.png"],
+    },
+    alternates: { canonical: "https://ratemycoffee.com" },
+    robots: { index: true, follow: true },
+  };
+}
 
 export default async function Home() {
   const { coffeeShops, locations: uniqueLocations } =
