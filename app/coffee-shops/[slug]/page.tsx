@@ -56,14 +56,18 @@ export async function generateMetadata({
   let shop: CoffeeShop | null = null;
   try {
     shop = await fetchShopBySlug(slug);
-  } catch (_) {
-    // If shop fetch fails, fall back to generic metadata
+  } catch (error) {
+    console.error(error);
+    return {
+      title: `RateMyCoffee`,
+      description: "Help people discover the best coffee shops in your area.",
+    };
   }
 
   if (!shop) {
     return {
-      title: `Coffee Shop | RateMyCoffee`,
-      description: "Discover and review coffee shops.",
+      title: `RateMyCoffee`,
+      description: "Help people discover the best coffee shops in your area.",
     };
   }
 

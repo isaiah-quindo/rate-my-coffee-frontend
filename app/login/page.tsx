@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
@@ -9,7 +9,7 @@ import { AuthError } from "@/app/utilities/authUtils";
 import Header from "../components/Header";
 import { KeyRound, Mail, CheckCircle2 } from "lucide-react";
 
-const LoginPage: React.FC = () => {
+const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState<LoginRequest>({
     email: "",
     password: "",
@@ -204,6 +204,23 @@ const LoginPage: React.FC = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const LoginPage: React.FC = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <div className="flex items-center justify-center flex-1">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
+          </div>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 };
 
