@@ -48,7 +48,7 @@ const Hero = ({
     setShowSuggestions(false);
   }
   return (
-    <div className="relative overflow-hidden backdrop-grayscale bg-[url('/images/hero-bg.jpg')] bg-cover bg-center ">
+    <div className="relative backdrop-grayscale bg-[url('/images/hero-bg.jpg')] bg-cover bg-center ">
       <div className="backdrop-blur-sm backdrop-opacity-100">
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-24">
           <div className="text-center">
