@@ -6,6 +6,7 @@
 
 /* Plugins */
 @plugin "@tailwindcss/forms";
+@plugin "tailwind-scrollbar-hide";
 
 
 

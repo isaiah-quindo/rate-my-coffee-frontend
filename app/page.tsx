@@ -4,25 +4,9 @@ import Hero from "./components/Hero";
 import CoffeeCard from "./components/CoffeeCard";
 import CityCard from "./components/CityCard";
 import Link from "next/link";
-import { Metadata } from "next";
 import { fetchCoffeeShopsAndLocations } from "./utilities/dataUtils";
 import { CoffeeShop } from "@/types/coffeeShop";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "RateMyCoffee",
-    description: "Discover the best coffee shops in your area.",
-    keywords: ["coffee", "coffee shops", "coffee reviews", "coffee ratings"],
-    openGraph: {
-      title: "RateMyCoffee",
-      description: "Discover the best coffee shops in your area.",
-      images: ["/images/default-cover.png"],
-    },
-    alternates: { canonical: "https://ratemycoffee.com" },
-    robots: { index: true, follow: true },
-  };
-}
 
 export default async function Home() {
   const { coffeeShops, locations: uniqueLocations } =
@@ -57,7 +41,7 @@ export default async function Home() {
       <Hero locations={uniqueLocations} />
       <div className="w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
         {/* City Cards Section */}
-        <div data-hs-scroll-nav className="relative px-0 md:px-6">
+        <div data-hs-scroll-nav className="relative px-6">
           <div className="flex flex-row gap-2 mb-2 justify-between items-center">
             <h3 className="text-xl font-semibold text-gray-800">
               Popular Cities
@@ -77,7 +61,7 @@ export default async function Home() {
               </button>
             </div>
           </div>
-          <nav className="hs-scroll-nav-body flex flex-nowrap overflow-x-auto scroll-smoothsnap-x snap-x-mandatory snap-mandatory flex flex-row gap-4 sm:gap-4 mb-6 pb-4">
+          <nav className="hs-scroll-nav-body flex flex-nowrap overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-x-mandatory snap-mandatory flex flex-row gap-4 sm:gap-4 mb-6 pb-4">
             {cities.map((city) => (
               <CityCard
                 key={city}
@@ -89,7 +73,7 @@ export default async function Home() {
         </div>
 
         {/* Coffee Shops Section */}
-        <div data-hs-scroll-nav className="relative px-0 md:px-6">
+        <div data-hs-scroll-nav className="relative px-6">
           <div className="flex flex-row mb-2 justify-between items-center">
             <h3 className="text-xl font-semibold text-gray-800">
               Popular Coffee Shops
@@ -109,7 +93,7 @@ export default async function Home() {
               </button>
             </div>
           </div>
-          <nav className="hs-scroll-nav-body flex flex-nowrap overflow-x-auto snap-x snap-mandatory flex flex-row gap-4 sm:gap-4 mb-6 pb-4">
+          <nav className="hs-scroll-nav-body flex flex-nowrap overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory flex flex-row gap-4 sm:gap-4 mb-0 pb-4">
             {coffeeShops.map((coffeeShop: CoffeeShop) => (
               <CoffeeCard
                 key={coffeeShop.id}
