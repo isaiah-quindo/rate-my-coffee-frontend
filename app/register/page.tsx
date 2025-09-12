@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { RegisterRequest } from "@/types/auth";
 import { AuthError } from "@/app/utilities/authUtils";
@@ -10,7 +10,7 @@ import Header from "../components/Header";
 import { CheckCircle2, User2, Mail, KeyRound } from "lucide-react";
 import { sendGAEvent } from "@next/third-parties/google";
 
-const RegisterPage: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const [formData, setFormData] = useState<RegisterRequest>({
     name: "",
     email: "",
@@ -24,6 +24,7 @@ const RegisterPage: React.FC = () => {
 
   const { register } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -71,7 +72,8 @@ const RegisterPage: React.FC = () => {
 
       // Redirect after showing success message
       setTimeout(() => {
-        router.push("/");
+        const redirectTo = searchParams.get("redirect") || "/";
+        router.push(redirectTo);
       }, 1500);
     } catch (error) {
       if (error instanceof AuthError) {
@@ -145,7 +147,7 @@ const RegisterPage: React.FC = () => {
                     type="text"
                     id="name"
                     name="name"
-                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none ${
+                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-md focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none ${
                       errors.name ? "border-red-300" : "border-gray-200"
                     }`}
                     autoComplete="name"
@@ -172,7 +174,7 @@ const RegisterPage: React.FC = () => {
                     type="email"
                     id="email"
                     name="email"
-                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 ${
+                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-md focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 ${
                       errors.email ? "border-red-300" : "border-gray-200"
                     }`}
                     autoComplete="email"
@@ -199,7 +201,7 @@ const RegisterPage: React.FC = () => {
                     type="password"
                     id="password"
                     name="password"
-                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 ${
+                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-md focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 ${
                       errors.password ? "border-red-300" : "border-gray-200"
                     }`}
                     autoComplete="new-password"
@@ -229,7 +231,7 @@ const RegisterPage: React.FC = () => {
                     type="password"
                     id="password_confirmation"
                     name="password_confirmation"
-                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 ${
+                    className={`py-3 px-4 ps-11 block w-full border-gray-200 rounded-lg text-md focus:border-purple-500 focus:ring-purple-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 ${
                       errors.password_confirmation
                         ? "border-red-300"
                         : "border-gray-200"
@@ -286,6 +288,23 @@ const RegisterPage: React.FC = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const RegisterPage: React.FC = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <div className="flex items-center justify-center flex-1">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
+          </div>
+        </div>
+      }
+    >
+      <RegisterForm />
+    </Suspense>
   );
 };
 
