@@ -903,44 +903,46 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
               <div className="p-4 overflow-y-auto">
                 <div className="space-y-4">
                   <div className="flex flex-col">
-                    <div className="-m-1.5 overflow-hidden">
-                      <div className="p-1.5 min-w-full inline-block align-middle">
-                        <div className="overflow-hidden">
+                    <div className="-m-1.5 w-full">
+                      <div className="p-1.5 w-full inline-block align-middle">
+                        <div className="w-full">
                           {modal.intro && (
                             <p className="text-gray-500 text-sm font-normal">
                               {modal.intro}
                             </p>
                           )}
-                          <table className="min-w-full divide-y divide-gray-200">
-                            <thead>
-                              <tr>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
-                                >
-                                  Rating
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
-                                >
-                                  Description
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200">
-                              {modal.rows.map((row) => (
-                                <tr key={row.rating}>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                                    {row.rating}
-                                  </td>
-                                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                    {row.description}
-                                  </td>
+                          <div className="w-full overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200">
+                              <thead>
+                                <tr>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
+                                  >
+                                    Rating
+                                  </th>
+                                  <th
+                                    scope="col"
+                                    className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"
+                                  >
+                                    Description
+                                  </th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </table>
+                              </thead>
+                              <tbody className="divide-y divide-gray-200">
+                                {modal.rows.map((row) => (
+                                  <tr key={row.rating}>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                      {row.rating}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                      {row.description}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
