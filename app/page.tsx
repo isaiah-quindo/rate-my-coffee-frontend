@@ -62,13 +62,15 @@ export default async function Home() {
             </div>
           </div>
           <nav className="hs-scroll-nav-body flex flex-nowrap overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-x-mandatory snap-mandatory flex flex-row gap-4 sm:gap-4 mb-6 pb-4">
-            {cities.map((city) => (
-              <CityCard
-                key={city}
-                city={city}
-                count={countsByCity[city] ?? 0}
-              />
-            ))}
+            {cities
+              .sort((a, b) => (countsByCity[b] ?? 0) - (countsByCity[a] ?? 0))
+              .map((city) => (
+                <CityCard
+                  key={city}
+                  city={city}
+                  count={countsByCity[city] ?? 0}
+                />
+              ))}
           </nav>
         </div>
 
@@ -94,15 +96,20 @@ export default async function Home() {
             </div>
           </div>
           <nav className="hs-scroll-nav-body flex flex-nowrap overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory flex flex-row gap-4 sm:gap-4 mb-0 pb-4">
-            {coffeeShops.map((coffeeShop: CoffeeShop) => (
-              <CoffeeCard
-                key={coffeeShop.id}
-                coffeeShop={coffeeShop}
-                imageUrl={
-                  coffeeShop.cover_photo?.url ?? "/images/default-cover.png"
-                }
-              />
-            ))}
+            {coffeeShops
+              .sort(
+                (a, b) =>
+                  (b.rating_count_cache ?? 0) - (a.rating_count_cache ?? 0)
+              )
+              .map((coffeeShop: CoffeeShop) => (
+                <CoffeeCard
+                  key={coffeeShop.id}
+                  coffeeShop={coffeeShop}
+                  imageUrl={
+                    coffeeShop.cover_photo?.url ?? "/images/default-cover.png"
+                  }
+                />
+              ))}
           </nav>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
