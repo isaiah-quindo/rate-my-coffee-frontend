@@ -27,10 +27,9 @@ const CoffeeCard: React.FC<{
               {coffeeShop.name}
             </h3>
             <div className="flex flex-row items-center gap-1">
-              <MapPin size={16} className="text-gray-500" />
-              <span className="text-gray-500 text-sm">
-                {coffeeShop.street_address}, {coffeeShop.barangay},{" "}
-                {coffeeShop.city_municipality}
+              <MapPin size={16} className="text-gray-500 flex-shrink-0" />
+              <span className="text-gray-500 text-sm truncate">
+                {coffeeShop.barangay}, {coffeeShop.city_municipality}
               </span>
             </div>
           </div>

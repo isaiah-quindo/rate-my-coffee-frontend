@@ -54,6 +54,11 @@ export default function PaginatedPosts({
 
   return (
     <div className="flex flex-col gap-4">
+      {posts.length === 0 && (
+        <div className="text-center py-8">
+          <p className="text-gray-500">No reviews yet</p>
+        </div>
+      )}
       {posts.map((post) => (
         <PostCard key={post.id} post={post} shopPhotos={shopPhotos} />
       ))}

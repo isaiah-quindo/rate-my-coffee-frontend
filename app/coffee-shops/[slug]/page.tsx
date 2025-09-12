@@ -36,7 +36,8 @@ type PageProps = {
 
 async function fetchShopBySlug(slug: string): Promise<CoffeeShop> {
   const BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
-  const res = await fetch(`${BASE}/api/coffee-shops/${encodeURIComponent(slug)}`,
+  const res = await fetch(
+    `${BASE}/api/coffee-shops/${encodeURIComponent(slug)}`,
     {
       cache: "no-store",
       headers: { Accept: "application/json" },
@@ -48,7 +49,9 @@ async function fetchShopBySlug(slug: string): Promise<CoffeeShop> {
   return res.json();
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = params;
   let shop: CoffeeShop | null = null;
   try {
@@ -65,11 +68,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  const ogImage = shop.cover_photo?.url || shop.photos?.[0]?.url || "/default-og.png";
+  const ogImage =
+    shop.cover_photo?.url || shop.photos?.[0]?.url || "/default-og.png";
 
   return {
     title: `${shop.name} | RateMyCoffee`,
-    description: shop.description ?? "Discover this coffee shop on RateMyCoffee.",
+    description:
+      shop.description ?? "Discover this coffee shop on RateMyCoffee.",
     keywords: shop.tags ?? [],
     openGraph: {
       title: shop.name,
@@ -141,62 +146,86 @@ export default async function CoffeeShopPage({ params }: PageProps) {
                 </div>
                 <p>{shop.description}</p>
                 <div className="flex flex-row items-center flex-wrap gap-4 text-gray-500 text-sm">
-                  <span className="flex flex-row items-center gap-1">
-                    <Wifi size={16} />
-                    {shop.has_wifi ? "Wifi" : "No wifi"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <CreditCard size={16} />
-                    {shop.accepts_cards
-                      ? "Cards accepted"
-                      : "No cards accepted"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <Smartphone size={16} />
-                    {shop.accepts_gcash
-                      ? "GCash accepted"
-                      : "No GCash accepted"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <SquareParking size={16} />
-                    {shop.parking_available
-                      ? "Parking available"
-                      : "No parking"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <Plug size={16} />
-                    {shop.has_outlets ? "Outlets" : "No outlets"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <Armchair size={16} />
-                    {shop.outdoor_seating
-                      ? "Outdoor seating"
-                      : "No outdoor seating"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <Accessibility size={16} />
-                    {shop.wheelchair_accessible
-                      ? "Wheelchair accessible"
-                      : "No wheelchair accessible"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <PawPrint size={16} />
-                    {shop.pet_friendly ? "Pet friendly" : "No pet friendly"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <Vegan size={16} />
-                    {shop.vegan_options ? "Vegan options" : "No vegan options"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <Beaker size={16} />
-                    {shop.manual_brew ? "Manual brew" : "No manual brew"}
-                  </span>
-                  <span className="flex flex-row items-center gap-1">
-                    <Coffee size={16} />
-                    {shop.decaf_available
-                      ? "Decaf available"
-                      : "No decaf available"}
-                  </span>
+                  {shop.has_wifi && (
+                    <span className="flex flex-row items-center gap-1">
+                      <Wifi size={16} />
+                      {shop.has_wifi ? "Wifi" : "No wifi"}
+                    </span>
+                  )}
+                  {shop.accepts_cards && (
+                    <span className="flex flex-row items-center gap-1">
+                      <CreditCard size={16} />
+                      {shop.accepts_cards
+                        ? "Cards accepted"
+                        : "No cards accepted"}
+                    </span>
+                  )}
+                  {shop.accepts_gcash && (
+                    <span className="flex flex-row items-center gap-1">
+                      <Smartphone size={16} />
+                      {shop.accepts_gcash
+                        ? "GCash accepted"
+                        : "No GCash accepted"}
+                    </span>
+                  )}
+                  {shop.parking_available && (
+                    <span className="flex flex-row items-center gap-1">
+                      <SquareParking size={16} />
+                      {shop.parking_available
+                        ? "Parking available"
+                        : "No parking"}
+                    </span>
+                  )}
+                  {shop.has_outlets && (
+                    <span className="flex flex-row items-center gap-1">
+                      <Plug size={16} />
+                      {shop.has_outlets ? "Outlets" : "No outlets"}
+                    </span>
+                  )}
+                  {shop.outdoor_seating && (
+                    <span className="flex flex-row items-center gap-1">
+                      <Armchair size={16} />
+                      {shop.outdoor_seating
+                        ? "Outdoor seating"
+                        : "No outdoor seating"}
+                    </span>
+                  )}
+                  {shop.wheelchair_accessible && (
+                    <span className="flex flex-row items-center gap-1">
+                      <Accessibility size={16} />
+                      {shop.wheelchair_accessible
+                        ? "Wheelchair accessible"
+                        : "No wheelchair accessible"}
+                    </span>
+                  )}
+                  {shop.pet_friendly && (
+                    <span className="flex flex-row items-center gap-1">
+                      <PawPrint size={16} />
+                      {shop.pet_friendly ? "Pet friendly" : "No pet friendly"}
+                    </span>
+                  )}
+                  {shop.vegan_options && (
+                    <span className="flex flex-row items-center gap-1">
+                      <Vegan size={16} />
+                      {shop.vegan_options
+                        ? "Vegan options"
+                        : "No vegan options"}
+                    </span>
+                  )}
+                  {shop.manual_brew && (
+                    <span className="flex flex-row items-center gap-1">
+                      <Beaker size={16} />
+                      {shop.manual_brew ? "Manual brew" : "No manual brew"}
+                    </span>
+                  )}
+                  {shop.decaf_available && (
+                    <span className="flex flex-row items-center gap-1">
+                      <Coffee size={16} />
+                      {shop.decaf_available
+                        ? "Decaf available"
+                        : "No decaf available"}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

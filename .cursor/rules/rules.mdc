@@ -83,19 +83,19 @@ CREATE TABLE coffee_shops (
 
   -- Commercial hints
   price                 price_tier,
-  accepts_gcash         BOOLEAN NOT NULL DEFAULT TRUE,
-  accepts_cards         BOOLEAN NOT NULL DEFAULT TRUE,
+  accepts_gcash         BOOLEAN DEFAULT NULL,
+  accepts_cards         BOOLEAN DEFAULT NULL,
 
   -- Amenities
-  has_wifi              BOOLEAN NOT NULL DEFAULT TRUE,
-  has_outlets           BOOLEAN NOT NULL DEFAULT TRUE,
-  outdoor_seating       BOOLEAN NOT NULL DEFAULT FALSE,
-  parking_available     BOOLEAN NOT NULL DEFAULT FALSE,
-  wheelchair_accessible BOOLEAN NOT NULL DEFAULT FALSE,
-  pet_friendly          BOOLEAN NOT NULL DEFAULT FALSE,
-  vegan_options         BOOLEAN NOT NULL DEFAULT FALSE,
-  manual_brew           BOOLEAN NOT NULL DEFAULT FALSE,
-  decaf_available       BOOLEAN NOT NULL DEFAULT FALSE,
+  has_wifi              BOOLEAN DEFAULT NULL,
+  has_outlets           BOOLEAN DEFAULT NULL,
+  outdoor_seating       BOOLEAN DEFAULT NULL,
+  parking_available     BOOLEAN DEFAULT NULL,
+  wheelchair_accessible BOOLEAN DEFAULT NULL,
+  pet_friendly          BOOLEAN DEFAULT NULL,
+  vegan_options         BOOLEAN DEFAULT NULL,
+  manual_brew           BOOLEAN DEFAULT NULL,
+  decaf_available       BOOLEAN DEFAULT NULL,
 
   tags                  TEXT[] DEFAULT '{}'::TEXT[],
 
