@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@next/third-parties": "^15.5.3",
     "@preline/overlay": "^3.2.3",
     "@preline/range-slider": "^3.2.3",
     "@preline/scroll-nav": "^3.2.3",

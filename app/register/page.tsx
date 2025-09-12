@@ -8,6 +8,7 @@ import { RegisterRequest } from "@/types/auth";
 import { AuthError } from "@/app/utilities/authUtils";
 import Header from "../components/Header";
 import { CheckCircle2, User2, Mail, KeyRound } from "lucide-react";
+import { sendGAEvent } from "@next/third-parties/google";
 
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState<RegisterRequest>({
@@ -62,6 +63,12 @@ const RegisterPage: React.FC = () => {
     try {
       await register(formData);
       setShowSuccess(true);
+
+      // Track user registration
+      sendGAEvent("event", "sign_up", {
+        method: "email",
+      });
+
       // Redirect after showing success message
       setTimeout(() => {
         router.push("/");

@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
 import { AuthProvider } from "./contexts/AuthContext";
 import "./globals.css";
@@ -35,6 +36,7 @@ export default function RootLayout({
         <AuthProvider>{children}</AuthProvider>
         <PrelineScriptWrapper />
       </body>
+      <GoogleAnalytics gaId="G-CPFDQ1RMRV" />
     </html>
   );
 }
