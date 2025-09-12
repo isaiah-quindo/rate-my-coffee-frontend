@@ -14,7 +14,7 @@ const Footer = () => {
       <footer className="mt-auto bg-gray-900 w-full">
         <div className="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 lg:pt-20 mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            <div className="col-span-full lg:col-span-2 px-5 lg:px-0">
+            <div className="col-span-full lg:col-span-2">
               <Link
                 className="flex flex-row items-center gap-1 text-xl font-semibold text-white focus:outline-hidden focus:opacity-80"
                 href="/"
@@ -61,7 +61,7 @@ const Footer = () => {
               </div>
             </div> */}
 
-            <div className="col-span-1 px-5">
+            <div className="col-span-1">
               <h4 className="font-semibold text-gray-100">Company</h4>
 
               <div className="mt-3 grid space-y-3">
@@ -92,11 +92,9 @@ const Footer = () => {
               </div>
             </div>
             <div className="col-span-2">
-              <h4 className="font-semibold text-gray-100 px-5">
-                Stay up to date
-              </h4>
+              <h4 className="font-semibold text-gray-100">Stay up to date</h4>
               <NewsletterSignup />
-              <p className="text-sm text-gray-400 px-5">
+              <p className="text-sm text-gray-400">
                 Sign up for our newsletter to get the latest news, updates, and
                 promotions from your favorite coffee shops.
               </p>
@@ -104,7 +102,7 @@ const Footer = () => {
           </div>
           {/* End Grid */}
 
-          <div className="mt-5 sm:mt-12 grid gap-y-2 sm:gap-y-0 sm:flex sm:justify-between sm:items-center px-5 lg:px-0">
+          <div className="mt-5 sm:mt-12 grid gap-y-2 sm:gap-y-0 sm:flex sm:justify-between sm:items-center">
             <div className="flex flex-wrap justify-between items-center gap-2">
               <p className="text-sm text-gray-400">© 2025 RateMyCoffee.</p>
             </div>

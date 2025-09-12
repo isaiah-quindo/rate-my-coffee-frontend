@@ -52,7 +52,7 @@ const Hero = ({
       <div className="backdrop-blur-sm backdrop-opacity-100">
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-24">
           <div className="text-center">
-            <h1 className="max-w-3xl mx-auto text-4xl sm:text-6xl font-bold text-white mb-4">
+            <h1 className="max-w-3xl mx-auto text-4xl sm:text-6xl font-bold text-white mb-4 drop-shadow-lg">
               Saan ba pwede mag kape, na masarap?
             </h1>
 

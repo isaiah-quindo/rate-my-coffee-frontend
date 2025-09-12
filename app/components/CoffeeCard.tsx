@@ -33,7 +33,7 @@ const CoffeeCard: React.FC<{
               </span>
             </div>
           </div>
-          <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-col items-start justify-between md:flex-row md:items-center">
             <span className="flex flex-row items-center gap-2 mb-1 text-sm font-semibold uppercase text-blue-600">
               <StarRatingDisplay
                 value={Number(coffeeShop.rating_overall_cache) || 0}

@@ -52,7 +52,7 @@ async function fetchShopBySlug(slug: string): Promise<CoffeeShop> {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   let shop: CoffeeShop | null = null;
   try {
     shop = await fetchShopBySlug(slug);
@@ -90,7 +90,7 @@ export async function generateMetadata({
 }
 
 export default async function CoffeeShopPage({ params }: PageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const shop = await fetchShopBySlug(slug);
 
   // Fetch all coffee shops and locations for the modal
@@ -131,14 +131,16 @@ export default async function CoffeeShopPage({ params }: PageProps) {
                 </div>
               </div>
               <div className="flex flex-col gap-4 p-6">
-                <div className="flex flex-row items-center gap-2">
-                  <StarRatingDisplay
-                    value={Number(shop.rating_overall_cache) || 0}
-                    size={22}
-                  />
-                  <span className="text-sm font-bold text-gray-600 mt-1">
-                    {shop.rating_overall_cache ?? "No ratings yet"}
-                  </span>
+                <div className="flex flex-col items-start gap-0 md:flex-row md:items-center md:gap-2">
+                  <div className="flex flex-row items-center gap-2">
+                    <StarRatingDisplay
+                      value={Number(shop.rating_overall_cache) || 0}
+                      size={22}
+                    />
+                    <span className="text-sm font-bold text-gray-600 mt-1">
+                      {shop.rating_overall_cache ?? "No ratings yet"}
+                    </span>
+                  </div>
 
                   <span className="text-sm text-gray-600 mt-1">
                     Based on {shop.rating_count_cache ?? 0} reviews
