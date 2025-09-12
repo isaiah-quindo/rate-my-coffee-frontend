@@ -43,9 +43,11 @@ const CoffeeCard: React.FC<{
                 {coffeeShop.rating_overall_cache ?? "No ratings yet"}
               </span>
             </span>
-            <span className="text-sm text-gray-600">
-              {coffeeShop.rating_count_cache ?? 0} reviews
-            </span>
+            {coffeeShop.rating_count_cache && (
+              <span className="text-sm text-gray-600">
+                {coffeeShop.rating_count_cache ?? 0} reviews
+              </span>
+            )}
           </div>
         </div>
       </div>
