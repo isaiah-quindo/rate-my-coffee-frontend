@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { LoginRequest } from "@/types/auth";
 import { AuthError } from "@/app/utilities/authUtils";
@@ -21,6 +21,7 @@ const LoginPage: React.FC = () => {
 
   const { login } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -49,7 +50,8 @@ const LoginPage: React.FC = () => {
       setShowSuccess(true);
       // Redirect after showing success message
       setTimeout(() => {
-        router.push("/");
+        const redirectTo = searchParams.get("redirect") || "/";
+        router.push(redirectTo);
       }, 1500);
     } catch (error) {
       if (error instanceof AuthError) {

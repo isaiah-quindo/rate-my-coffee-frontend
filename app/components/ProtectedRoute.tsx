@@ -21,7 +21,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   useEffect(() => {
     if (!isLoading && !user) {
       // Redirect to login page if user is not authenticated
-      router.push(redirectTo);
+      const currentPath = window.location.pathname + window.location.search;
+      const loginUrl = `${redirectTo}?redirect=${encodeURIComponent(
+        currentPath
+      )}`;
+      router.push(loginUrl);
     }
   }, [user, isLoading, router, redirectTo]);
 
@@ -29,14 +33,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   if (isLoading) {
     return (
       <>
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <div className="flex items-center justify-center flex-1">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <div className="flex items-center justify-center flex-1">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
+          </div>
         </div>
-        
-      </div>
-      <Footer />
+        <Footer />
       </>
     );
   }

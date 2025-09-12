@@ -37,7 +37,7 @@ export default async function PostsPage({ params }: PageProps) {
           height={700}
           className="w-full h-full object-cover"
         />
-        <h2 className="text-4xl font-bold text-center text-black absolute top-1/6 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+        <h2 className="text-2xl md:text-4xl font-bold text-center text-black absolute top-1/6 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
           Write a Review for {shop.name}
         </h2>
       </div>

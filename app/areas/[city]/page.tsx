@@ -36,7 +36,7 @@ export default async function CityPage({ params }: PageProps) {
       <Header locations={uniqueLocations} coffeeShops={allShops} />
       <div className="bg-gray-50 flex-1">
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col items-start justify-between gap-0 md:flex-row md:items-center md:gap-2 mb-6">
             <h1 className="text-2xl font-semibold text-gray-800">
               Coffee shops in {cityName}
             </h1>

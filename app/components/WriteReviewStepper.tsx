@@ -214,7 +214,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
 
   return (
     <>
-      <div className="p-4 bg-white w-full">
+      <div className="p-0 md:p-4 bg-white w-full">
         {/* Stepper */}
         <div data-hs-stepper="">
           {/* Stepper Nav */}
@@ -284,7 +284,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
               <p className="text-sm text-gray-500">
                 Rate at least one of the following
               </p>
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the{" "}
                   <span className="text-purple-500">coffee quality</span>
@@ -300,7 +300,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">vibe</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -315,7 +315,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">service</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -330,7 +330,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">value</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -345,7 +345,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">wifi</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -359,7 +359,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">noise</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -374,7 +374,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">seating</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -389,7 +389,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">outlets</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -404,7 +404,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">cleanliness</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -419,7 +419,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">food</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -433,7 +433,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the{" "}
                   <span className="text-purple-500">location convenience</span>
@@ -449,7 +449,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="p-4 h-auto flex justify-between items-center ">
+              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center ">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">consistency</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -473,7 +473,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
       }'
               style={{ display: "none" }}
             >
-              <div className="p-4 h-auto flex flex-col items-stretch gap-4">
+              <div className="py-4 px-0 md:px-4 h-auto flex flex-col items-stretch gap-4">
                 <p className="text-xl font-bold text-gray-500">
                   Write a <span className="text-purple-500">comment</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -583,7 +583,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
       }'
               style={{ display: "none" }}
             >
-              <div className="p-4 h-auto flex flex-col items-stretch gap-4">
+              <div className="py-4 px-0 md:px-4 h-auto flex flex-col items-stretch gap-4">
                 <p className="text-xl font-bold text-gray-500">
                   What did you <span className="text-purple-500">order</span>?
                 </p>
