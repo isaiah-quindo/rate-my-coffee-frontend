@@ -48,7 +48,7 @@ const Hero = ({
     setShowSuggestions(false);
   }
   return (
-    <div className="relative backdrop-grayscale bg-[url('/images/hero-bg.jpg')] bg-cover bg-center ">
+    <div className="relative backdrop-grayscale bg-[url('/images/hero-bg.jpg')] bg-cover bg-center z-[100]">
       <div className="backdrop-blur-sm backdrop-opacity-100">
         <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-24">
           <div className="text-center">
@@ -98,7 +98,7 @@ const Hero = ({
                         </div>
                       </div>
                       {showSuggestions && filteredLocations.length > 0 && (
-                        <div className="absolute z-50 w-full max-h-72 p-1 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                        <div className="absolute z-10 w-full max-h-72 p-1 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
                           {filteredLocations.map((location, index) => (
                             <div
                               key={index}

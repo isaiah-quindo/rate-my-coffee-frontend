@@ -79,7 +79,7 @@ export default async function Home() {
     <>
       <Header locations={uniqueLocations} coffeeShops={top} />
       <Hero locations={uniqueLocations} />
-      <div className="w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <div className="w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto relative z-[0]">
         {/* City Cards Section */}
         <div data-hs-scroll-nav className="relative px-0 lg:px-6">
           <div className="flex flex-row gap-2 mb-2 justify-between items-center">
