@@ -37,9 +37,15 @@ export default async function Home() {
 
   // Derive top 12 by review count (posts_total -> rating_count_cache -> posts.length)
   const reviewCount = (s: CoffeeShop): number => {
-    if (typeof (s as any).posts_total === "number") return (s as any).posts_total;
-    if (typeof s.rating_count_cache === "number") return s.rating_count_cache ?? 0;
-    if (Array.isArray((s as any).posts)) return ((s as any).posts as any[]).length;
+    const shopWithPosts = s as CoffeeShop & {
+      posts_total?: number;
+      posts?: unknown[];
+    };
+    if (typeof shopWithPosts.posts_total === "number")
+      return shopWithPosts.posts_total;
+    if (typeof s.rating_count_cache === "number")
+      return s.rating_count_cache ?? 0;
+    if (Array.isArray(shopWithPosts.posts)) return shopWithPosts.posts.length;
     return 0;
   };
   const top = [...coffeeShops]
