@@ -11,7 +11,7 @@ const CoffeeCard: React.FC<{
 }> = async ({ coffeeShop, imageUrl }) => {
   return (
     <Link href={`/coffee-shops/${coffeeShop.slug}`}>
-      <div className="w-93 group flex flex-col h-full bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden hover:shadow-lg transition-all duration-400 ease-in-out">
+      <div className="min-w-73 max-w-full group flex flex-col h-full bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden hover:shadow-lg transition-all duration-400 ease-in-out">
         <div className="relative overflow-hidden">
           <Image
             src={imageUrl}
