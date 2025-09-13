@@ -313,7 +313,7 @@ export default async function CoffeeShopPage({ params }: PageProps) {
                           <Instagram size={16} />
                           <a
                             className="text-purple-500 hover:text-purple-600"
-                            href={shop.instagram_handle ?? ""}
+                            href={`https://www.instagram.com/${shop.instagram_handle}`}
                           >
                             {shop.instagram_handle}
                           </a>
