@@ -46,7 +46,7 @@ export default function PhotoGallery({ images }: Props) {
           key={src + idx}
           type="button"
           onClick={() => openAt(idx)}
-          className="w-40 h-40 hover:shadow-lg hover:scale-105 transition-all duration-400 ease-in-out"
+          className="w-34 h-34 hover:shadow-lg hover:scale-105 transition-all duration-400 ease-in-out"
         >
           <Image
             src={src}

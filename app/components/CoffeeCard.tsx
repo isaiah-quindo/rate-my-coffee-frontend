@@ -11,7 +11,7 @@ const CoffeeCard: React.FC<{
 }> = async ({ coffeeShop, imageUrl }) => {
   return (
     <Link href={`/coffee-shops/${coffeeShop.slug}`}>
-      <div className="max-w-96 min-w-73 group flex flex-col h-full bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden hover:shadow-lg transition-all duration-400 ease-in-out">
+      <div className="w-93 group flex flex-col h-full bg-white border border-gray-200 shadow-2xs rounded-xl overflow-hidden hover:shadow-lg transition-all duration-400 ease-in-out">
         <div className="relative overflow-hidden">
           <Image
             src={imageUrl}
@@ -23,7 +23,7 @@ const CoffeeCard: React.FC<{
         </div>
         <div className="flex flex-col gap-2 p-4 md:p-6">
           <div className="flex flex-col">
-            <h3 className="text-xl font-semibold text-gray-800">
+            <h3 className="text-xl font-semibold text-gray-800 truncate">
               {coffeeShop.name}
             </h3>
             <div className="flex flex-row items-center gap-1">

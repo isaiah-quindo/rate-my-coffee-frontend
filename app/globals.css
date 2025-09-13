@@ -26,8 +26,6 @@
   --color-purple-700: #6941C6;
 }
 
-
-
 /* Fix modal z-index issues */
 #selectShopModal-backdrop {
   z-index: 9998 !important;

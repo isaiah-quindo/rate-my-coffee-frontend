@@ -31,8 +31,20 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  // Fetch all shops once to compute city counts and top list
   const { coffeeShops, locations: uniqueLocations } =
     await fetchCoffeeShopsAndLocations();
+
+  // Derive top 12 by review count (posts_total -> rating_count_cache -> posts.length)
+  const reviewCount = (s: CoffeeShop): number => {
+    if (typeof (s as any).posts_total === "number") return (s as any).posts_total;
+    if (typeof s.rating_count_cache === "number") return s.rating_count_cache ?? 0;
+    if (Array.isArray((s as any).posts)) return ((s as any).posts as any[]).length;
+    return 0;
+  };
+  const top = [...coffeeShops]
+    .sort((a, b) => reviewCount(b) - reviewCount(a))
+    .slice(0, 12);
 
   const cities = [
     "Taguig City",
@@ -44,8 +56,8 @@ export default async function Home() {
     "Baguio City",
     "Las Pinas City",
     "Cebu City",
-    "Davao City",
     "Iloilo City",
+    "Davao City",
   ];
 
   const countsByCity = coffeeShops.reduce<Record<string, number>>(
@@ -59,7 +71,7 @@ export default async function Home() {
 
   return (
     <>
-      <Header locations={uniqueLocations} coffeeShops={coffeeShops} />
+      <Header locations={uniqueLocations} coffeeShops={top} />
       <Hero locations={uniqueLocations} />
       <div className="w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
         {/* City Cards Section */}
@@ -118,7 +130,7 @@ export default async function Home() {
             </div>
           </div>
           <nav className="hs-scroll-nav-body flex flex-nowrap overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory flex flex-row gap-4 sm:gap-4 mb-0 pb-4">
-            {coffeeShops
+            {top
               .sort(
                 (a, b) =>
                   (b.rating_count_cache ?? 0) - (a.rating_count_cache ?? 0)
