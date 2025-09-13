@@ -23,11 +23,11 @@ const about = async () => {
             relax.
           </p>
           <p className="text-gray-600">
-            We want to be upfront, RateMyCoffee is not perfect yet. It's a work
-            in progress, and we're committed to making it better over time,
-            adding features and improving based on your feedback. Every review,
-            rating, and story shared helps build a more vibrant and useful
-            resource for all coffee lovers who visit.
+            We want to be upfront, RateMyCoffee is not perfect yet. It&apos;s a
+            work in progress, and we&apos;re committed to making it better over
+            time, adding features and improving based on your feedback. Every
+            review, rating, and story shared helps build a more vibrant and
+            useful resource for all coffee lovers who visit.
           </p>
           <p className="text-gray-600">
             Thank you for being part of this journey. Together, we can celebrate
