@@ -389,7 +389,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
+              {/* <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">outlets</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -402,7 +402,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                   readOnly={false}
                   onChange={(val) => setOutlets(val)}
                 />
-              </div>
+              </div> */}
 
               <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center border-b-1 border-gray-100">
                 <p className="text-xl font-bold text-gray-500">
@@ -449,7 +449,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                 />
               </div>
 
-              <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center ">
+              {/* <div className="py-4 px-0 md:px-4 h-auto flex justify-between items-center ">
                 <p className="text-xl font-bold text-gray-500">
                   Rate the <span className="text-purple-500">consistency</span>
                   <span className="block text-gray-400 text-sm font-normal">
@@ -462,7 +462,7 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
                   readOnly={false}
                   onChange={(val) => setConsistency(val)}
                 />
-              </div>
+              </div> */}
             </div>
             {/* End First Content */}
 
