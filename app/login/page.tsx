@@ -2,7 +2,7 @@
 
 import React, { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { LoginRequest } from "@/types/auth";
 import { AuthError } from "@/app/utilities/authUtils";
@@ -26,81 +26,10 @@ const LoginForm: React.FC = () => {
 
   const backendBaseUrl =
     process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000";
+
   const handleFacebookLogin = async () => {
-    setIsFacebookLoading(true);
-    setGeneralError("");
-
-    try {
-      // Get the current redirect parameter to pass it along
-      const redirectTo = searchParams.get("redirect") || "/";
-
-      // Persist intended redirect for after successful login
-      try {
-        localStorage.setItem("redirect_after_login", redirectTo);
-      } catch {}
-
-      // Facebook requires exact redirect_uri; do not append dynamic params here
-
-      // Use frontend callback URL
-      const callbackUrl = `${window.location.origin}/auth/facebook/callback`;
-      console.log("Using callback URL:", callbackUrl);
-
-      // Call the backend to get the Facebook OAuth URL
-      const response = await fetch(
-        `${backendBaseUrl}/api/auth/facebook/redirect?callback_url=${encodeURIComponent(
-          callbackUrl
-        )}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Response error:", errorText);
-        throw new Error(
-          `Failed to get Facebook login URL: ${response.status} ${response.statusText}`
-        );
-      }
-
-      const responseText = await response.text();
-      const cleanedText = responseText.replace(/^\uFEFF/, "").trim();
-      const data = JSON.parse(cleanedText);
-
-      if (data.url) {
-        // Log the Facebook OAuth URL
-        console.log("Facebook OAuth URL:", data.url);
-        // Parse and log the redirect_uri parameter
-        const fbUrl = new URL(data.url);
-        const redirectUri = fbUrl.searchParams.get("redirect_uri");
-        console.log("Facebook redirect_uri:", redirectUri);
-
-        // Redirect to the Facebook OAuth URL
-        window.location.href = data.url;
-      } else {
-        throw new Error("No Facebook login URL received");
-      }
-    } catch (error) {
-      console.error("Facebook login error:", error);
-      if (error instanceof TypeError && error.message === "Failed to fetch") {
-        setGeneralError(
-          "Cannot connect to the server. Please check if the backend is running."
-        );
-      } else {
-        setGeneralError(
-          `Failed to initiate Facebook login: ${
-            error instanceof Error ? error.message : "Unknown error"
-          }`
-        );
-      }
-    } finally {
-      setIsFacebookLoading(false);
-    }
+    window.location.href = `${backendBaseUrl}/api/auth/facebook/redirect`;
+    return redirect(`/auth/success`);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
