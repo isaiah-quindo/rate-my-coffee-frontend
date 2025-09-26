@@ -137,10 +137,15 @@ export default async function Home() {
           </div>
           <nav className="hs-scroll-nav-body flex flex-nowrap overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory flex flex-row gap-4 sm:gap-4 mb-0 pb-4">
             {top
-              .sort(
-                (a, b) =>
-                  (b.rating_count_cache ?? 0) - (a.rating_count_cache ?? 0)
-              )
+              .sort((a, b) => {
+                const countDiff =
+                  (b.rating_count_cache ?? 0) - (a.rating_count_cache ?? 0);
+                if (countDiff !== 0) return countDiff;
+
+                return (
+                  (b.rating_overall_cache ?? 0) - (a.rating_overall_cache ?? 0)
+                );
+              })
               .map((coffeeShop: CoffeeShop) => (
                 <CoffeeCard
                   key={coffeeShop.id}

@@ -33,4 +33,5 @@ export interface AuthContextType {
   register: (userData: RegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
   checkAuth: () => Promise<void>;
+  facebookCallback: (code: string) => Promise<void>;
 }

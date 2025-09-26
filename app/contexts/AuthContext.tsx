@@ -87,6 +87,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const facebookCallback = async (code: string) => {
+    try {
+      setIsLoading(true);
+      const response = await authService.facebookCallback(code);
+      setUser(response.user);
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     checkAuth();
   }, []);
@@ -98,6 +110,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     register,
     logout,
     checkAuth,
+    facebookCallback,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

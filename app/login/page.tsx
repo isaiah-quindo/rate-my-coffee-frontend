@@ -7,7 +7,7 @@ import { useAuth } from "@/app/contexts/AuthContext";
 import { LoginRequest } from "@/types/auth";
 import { AuthError } from "@/app/utilities/authUtils";
 import Header from "../components/Header";
-import { KeyRound, Mail, CheckCircle2 } from "lucide-react";
+import { KeyRound, Mail, CheckCircle2, Facebook } from "lucide-react";
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState<LoginRequest>({
@@ -16,12 +16,88 @@ const LoginForm: React.FC = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFacebookLoading, setIsFacebookLoading] = useState(false);
   const [generalError, setGeneralError] = useState<string>("");
   const [showSuccess, setShowSuccess] = useState(false);
 
   const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const backendBaseUrl =
+    process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000";
+  const handleFacebookLogin = async () => {
+    setIsFacebookLoading(true);
+    setGeneralError("");
+
+    try {
+      // Get the current redirect parameter to pass it along
+      const redirectTo = searchParams.get("redirect") || "/";
+      const callbackUrl = `${
+        window.location.origin
+      }/auth/facebook/callback?redirect=${encodeURIComponent(redirectTo)}`;
+
+      console.log("Attempting Facebook login with callback URL:", callbackUrl);
+      console.log("Backend URL:", backendBaseUrl);
+
+      // Call the backend to get the Facebook OAuth URL
+      const response = await fetch(
+        `${backendBaseUrl}/api/auth/facebook/redirect?callback_url=${encodeURIComponent(
+          callbackUrl
+        )}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Response status:", response.status);
+      console.log("Response headers:", response.headers);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Response error:", errorText);
+        throw new Error(
+          `Failed to get Facebook login URL: ${response.status} ${response.statusText}`
+        );
+      }
+
+      const responseText = await response.text();
+      console.log("Raw response text:", responseText);
+
+      // Remove BOM and any leading/trailing whitespace
+      const cleanedText = responseText.replace(/^\uFEFF/, "").trim();
+      console.log("Cleaned response text:", cleanedText);
+
+      const data = JSON.parse(cleanedText);
+      console.log("Parsed response data:", data);
+
+      if (data.url) {
+        // Redirect to the Facebook OAuth URL
+        window.location.href = data.url;
+      } else {
+        throw new Error("No Facebook login URL received");
+      }
+    } catch (error) {
+      console.error("Facebook login error:", error);
+      if (error instanceof TypeError && error.message === "Failed to fetch") {
+        setGeneralError(
+          "Cannot connect to the server. Please check if the backend is running."
+        );
+      } else {
+        setGeneralError(
+          `Failed to initiate Facebook login: ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`
+        );
+      }
+    } finally {
+      setIsFacebookLoading(false);
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -198,6 +274,41 @@ const LoginForm: React.FC = () => {
                   : isSubmitting
                   ? "Signing in..."
                   : "Sign in"}
+              </button>
+            </div>
+
+            <div className="relative pt-6">
+              <div
+                className="absolute inset-0 flex items-center"
+                aria-hidden="true"
+              >
+                <div className="w-full border-t border-gray-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-gray-50 text-gray-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="button"
+                onClick={handleFacebookLogin}
+                disabled={isFacebookLoading || isSubmitting || showSuccess}
+                className="w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isFacebookLoading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    Loading...
+                  </>
+                ) : (
+                  <>
+                    <Facebook size={16} />
+                    Continue with Facebook
+                  </>
+                )}
               </button>
             </div>
           </form>

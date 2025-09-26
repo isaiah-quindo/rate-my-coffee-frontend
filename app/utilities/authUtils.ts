@@ -40,11 +40,23 @@ class AuthService {
 
     try {
       const response = await fetch(url, config);
-      const data = await response.json();
-
+      
       if (!response.ok) {
-        throw new AuthError(data.message || 'An error occurred', data.errors);
+        // Try to get error data
+        try {
+          const errorText = await response.text();
+          const cleanedErrorText = errorText.replace(/^\uFEFF/, '').trim();
+          const errorData = JSON.parse(cleanedErrorText);
+          throw new AuthError(errorData.message || 'An error occurred', errorData.errors);
+        } catch (parseError) {
+          throw new AuthError(`HTTP ${response.status}: ${response.statusText}`);
+        }
       }
+
+      // Handle successful response
+      const responseText = await response.text();
+      const cleanedText = responseText.replace(/^\uFEFF/, '').trim();
+      const data = JSON.parse(cleanedText);
 
       return data;
     } catch (error) {
@@ -111,6 +123,19 @@ class AuthService {
 
   async getCurrentUser(): Promise<User> {
     return this.makeRequest<User>('/api/auth/user/me');
+  }
+
+  async facebookCallback(code: string): Promise<AuthResponse> {
+    const response = await this.makeRequest<AuthResponse>('/api/auth/facebook/callback', {
+      method: 'POST',
+      body: JSON.stringify({ code }),
+    });
+
+    if (response.token) {
+      this.setToken(response.token);
+    }
+
+    return response;
   }
 
   isAuthenticated(): boolean {
