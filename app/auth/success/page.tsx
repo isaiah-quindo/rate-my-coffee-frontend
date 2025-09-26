@@ -7,7 +7,7 @@ export default function AuthSuccess() {
 
   useEffect(() => {
     // Hit Laravel API with credentials (cookies included)
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/me`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/me`, {
       credentials: "include",
     })
       .then((res) => res.json())
