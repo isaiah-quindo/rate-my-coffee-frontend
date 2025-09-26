@@ -1,26 +1,49 @@
 "use client";
-import { useEffect, useState } from "react";
-import { User } from "@/types/auth";
 
-export default function AuthSuccess() {
-  const [user, setUser] = useState<User | null>(null);
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/contexts/AuthContext";
+
+const SuccessPage = () => {
+  const router = useRouter();
+  const { checkAuth } = useAuth();
 
   useEffect(() => {
-    // Hit Laravel API with credentials (cookies included)
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/me`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => setUser(data))
-      .catch(() => setUser(null));
-  }, []);
+    const handleSuccess = async () => {
+      try {
+        // Remove Facebook's #_=_ hash if present
+        if (window.location.hash === "#_=_") {
+          history.replaceState(
+            "",
+            document.title,
+            window.location.pathname + window.location.search
+          );
+        }
 
-  if (!user) return <p>Loading user...</p>;
+        // Sync auth context
+        await checkAuth();
 
+        // Get stored redirect path or default to home
+        const redirectTo = localStorage.getItem("redirect_after_login") || "/";
+        localStorage.removeItem("redirect_after_login"); // Clean up
+
+        // Redirect to intended page
+        router.replace(redirectTo);
+      } catch (error) {
+        console.error("Error syncing auth state:", error);
+        router.replace("/login");
+      }
+    };
+
+    handleSuccess();
+  }, [router, checkAuth]);
+
+  // Show loading state while processing
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-xl font-semibold">Welcome, {user.name} 👋</h1>
-      <p>Email: {user.email}</p>
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
     </div>
   );
-}
+};
+
+export default SuccessPage;
