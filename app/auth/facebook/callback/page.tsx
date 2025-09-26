@@ -40,7 +40,7 @@ const FacebookCallbackForm: React.FC = () => {
         const backendBaseUrl =
           process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
         const tokenRes = await fetch(
-          `${backendBaseUrl}/auth/facebook/callback?code=${encodeURIComponent(
+          `${backendBaseUrl}/api/auth/facebook/callback?code=${encodeURIComponent(
             code
           )}`,
           {

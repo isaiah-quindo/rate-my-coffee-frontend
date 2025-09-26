@@ -9,7 +9,6 @@ import { AuthError } from "@/app/utilities/authUtils";
 import { KeyRound, Mail, CheckCircle2, Facebook } from "lucide-react";
 import Header from "../components/Header";
 
-
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState<LoginRequest>({
     email: "",
@@ -41,7 +40,7 @@ const LoginForm: React.FC = () => {
       } catch {}
 
       // Facebook requires exact redirect_uri; do not append dynamic params here
-      const callbackUrl = `${window.location.origin}/auth/facebook/callback`;
+      const callbackUrl = `${window.location.origin}/api/auth/facebook/callback`;
 
       // Call the backend to get the Facebook OAuth URL
       const response = await fetch(
