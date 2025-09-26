@@ -126,10 +126,12 @@ class AuthService {
   }
 
   async facebookCallback(code: string): Promise<AuthResponse> {
-    const response = await this.makeRequest<AuthResponse>('/api/auth/facebook/callback', {
-      method: 'GET',
-      body: JSON.stringify({ code }),
-    });
+    const response = await this.makeRequest<AuthResponse>(
+      `/api/auth/facebook/callback?code=${encodeURIComponent(code)}`,
+      {
+        method: 'GET',
+      }
+    );
 
     if (response.token) {
       this.setToken(response.token);
