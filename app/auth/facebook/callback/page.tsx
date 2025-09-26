@@ -33,7 +33,7 @@ const FacebookCallbackForm: React.FC = () => {
         const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
         const res = await fetch(
-          `${backendBaseUrl}/auth/facebook/callback${qs}`,
+          `${backendBaseUrl}/api/auth/facebook/callback${qs}`,
           {
             method: "GET",
             headers: { Accept: "application/json" },
