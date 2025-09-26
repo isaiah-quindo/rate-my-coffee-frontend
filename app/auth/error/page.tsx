@@ -5,13 +5,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/app/components/Header";
 import { XCircle } from "lucide-react";
 
-const getErrorMessage = (code: string | null): string => {
-  switch (code) {
-    case "fb_error":
-      return "Unable to authenticate with Facebook. Please try again or use a different login method.";
-    default:
-      return "An error occurred during authentication. Please try again.";
+const getErrorMessage = (msg: string | null): string => {
+  if (!msg) {
+    return "An error occurred during authentication. Please try again.";
   }
+
+  // If it's our predefined error code
+  if (msg === "fb_error") {
+    return "Unable to authenticate with Facebook. Please try again or use a different login method.";
+  }
+
+  // Show the actual error message from the backend
+  return msg;
 };
 
 const ErrorContent = () => {
