@@ -28,31 +28,45 @@ const FacebookCallbackForm: React.FC = () => {
           return;
         }
 
-        // Check if token is in URL (some backends pass it this way)
-        const token = searchParams.get("token");
-        if (token) {
-          localStorage.setItem("auth_token", token);
+        // Get the code from Facebook
+        const code = searchParams.get("code");
+        if (!code) {
+          throw new Error("No authorization code received from Facebook");
         }
 
-        // Get user data and sync auth context
+        console.log("Received code from Facebook:", code);
+
+        // Exchange code for token
         const backendBaseUrl =
           process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
-        const res = await fetch(`${backendBaseUrl}/api/auth/user/me`, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${
-              token || localStorage.getItem("auth_token")
-            }`,
-          },
-          credentials: "include",
-        });
+        const tokenRes = await fetch(
+          `${backendBaseUrl}/auth/facebook/callback?code=${encodeURIComponent(
+            code
+          )}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+            },
+            credentials: "include",
+          }
+        );
 
-        if (!res.ok) {
-          throw new Error("Failed to get user data after Facebook login");
+        if (!tokenRes.ok) {
+          const errorText = await tokenRes.text();
+          console.error("Token exchange failed:", errorText);
+          throw new Error("Failed to exchange Facebook code for token");
         }
 
-        const userData = await res.json();
-        localStorage.setItem("user", JSON.stringify(userData));
+        const tokenData = await tokenRes.json();
+        console.log("Token exchange response:", tokenData);
+
+        if (tokenData.token) {
+          localStorage.setItem("auth_token", tokenData.token);
+        }
+        if (tokenData.user) {
+          localStorage.setItem("user", JSON.stringify(tokenData.user));
+        }
 
         // Sync auth context
         await checkAuth();
