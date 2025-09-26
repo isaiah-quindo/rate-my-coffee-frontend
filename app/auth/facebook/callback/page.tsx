@@ -40,6 +40,7 @@ const FacebookCallbackForm: React.FC = () => {
           {
             method: "GET",
             headers: { Accept: "application/json" },
+            credentials: "include",
           }
         );
 

@@ -51,6 +51,7 @@ const LoginForm: React.FC = () => {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
+          credentials: "include",
         }
       );
 
