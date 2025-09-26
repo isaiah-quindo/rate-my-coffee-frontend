@@ -26,9 +26,9 @@ const SuccessContent = () => {
       try {
         // Remove Facebook's #_=_ hash if present
         if (window.location.hash === "#_=_") {
-          history.replaceState(
+          window.history.replaceState(
+            { path: window.location.pathname + window.location.search },
             "",
-            document.title,
             window.location.pathname + window.location.search
           );
         }
