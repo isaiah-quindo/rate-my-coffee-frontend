@@ -45,19 +45,22 @@ const FacebookCallbackForm: React.FC = () => {
           // Try parse JSON error, else plain text
           let errMsg = "Facebook auth failed";
           try {
-            const errData = await res.json();
-            if (errData?.message) errMsg = errData.message;
-          } catch {
+            const errText = await res.text();
+            const cleanedErr = errText.replace(/^\uFEFF/, "").trim();
             try {
-              const txt = await res.text();
-              if (txt) errMsg = txt;
-            } catch {}
-          }
+              const errData = JSON.parse(cleanedErr);
+              if (errData?.message) errMsg = errData.message;
+            } catch {
+              if (cleanedErr) errMsg = cleanedErr;
+            }
+          } catch {}
           throw new Error(errMsg);
         }
 
         // Success
-        const data = await res.json();
+        const text = await res.text();
+        const cleaned = text.replace(/^\uFEFF/, "").trim();
+        const data = JSON.parse(cleaned);
         if (data?.token) {
           localStorage.setItem("auth_token", data.token);
         }
