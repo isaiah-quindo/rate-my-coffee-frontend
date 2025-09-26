@@ -24,11 +24,11 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
   const [wifi, setWifi] = useState<number>(0);
   const [noise, setNoise] = useState<number>(0);
   const [seating, setSeating] = useState<number>(0);
-  const [outlets, setOutlets] = useState<number>(0);
+  // const [outlets, setOutlets] = useState<number>(0);
   const [cleanliness, setCleanliness] = useState<number>(0);
   const [food, setFood] = useState<number>(0);
   const [locationConvenience, setLocationConvenience] = useState<number>(0);
-  const [consistency, setConsistency] = useState<number>(0);
+  // const [consistency, setConsistency] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [orderedItems, setOrderedItems] = useState<string[]>([""]);
   const [body, setBody] = useState<number>(0);
@@ -47,11 +47,11 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
     wifi > 0 ||
     noise > 0 ||
     seating > 0 ||
-    outlets > 0 ||
+    // outlets > 0 ||
     cleanliness > 0 ||
     food > 0 ||
-    locationConvenience > 0 ||
-    consistency > 0;
+    locationConvenience > 0;
+  // consistency > 0;
 
   // Initialize stepper after component mounts
   useEffect(() => {
@@ -138,12 +138,12 @@ export default function WriteReviewStepper({ shop }: { shop?: CoffeeShop }) {
       if (wifi > 0) ratings.wifi = wifi;
       if (noise > 0) ratings.noise = noise;
       if (seating > 0) ratings.seating = seating;
-      if (outlets > 0) ratings.outlets = outlets;
+      // if (outlets > 0) ratings.outlets = outlets;
       if (cleanliness > 0) ratings.cleanliness = cleanliness;
       if (food > 0) ratings.food = food;
       if (locationConvenience > 0)
         ratings.location_convenience = locationConvenience;
-      if (consistency > 0) ratings.consistency = consistency;
+      // if (consistency > 0) ratings.consistency = consistency;
 
       const tasteProfile: Record<string, number> = {};
       if (body > 0) tasteProfile.body = body;

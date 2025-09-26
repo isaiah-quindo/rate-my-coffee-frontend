@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/app/components/Header";
 import { XCircle } from "lucide-react";
@@ -14,7 +14,7 @@ const getErrorMessage = (code: string | null): string => {
   }
 };
 
-const AuthErrorPage = () => {
+const ErrorContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const errorCode = searchParams.get("msg");
@@ -47,6 +47,23 @@ const AuthErrorPage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const AuthErrorPage = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <div className="flex items-center justify-center flex-1">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
+          </div>
+        </div>
+      }
+    >
+      <ErrorContent />
+    </Suspense>
   );
 };
 

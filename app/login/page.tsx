@@ -16,7 +16,6 @@ const LoginForm: React.FC = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isFacebookLoading, setIsFacebookLoading] = useState(false);
   const [generalError, setGeneralError] = useState<string>("");
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -108,20 +107,10 @@ const LoginForm: React.FC = () => {
             <button
               type="button"
               onClick={handleFacebookLogin}
-              disabled={isFacebookLoading || isSubmitting || showSuccess}
               className="w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
-              {isFacebookLoading ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  Loading...
-                </>
-              ) : (
-                <>
-                  <Facebook size={16} />
-                  Continue with Facebook
-                </>
-              )}
+              <Facebook size={16} />
+              Continue with Facebook
             </button>
           </div>
 
