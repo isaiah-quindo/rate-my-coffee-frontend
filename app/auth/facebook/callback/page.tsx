@@ -28,6 +28,32 @@ const FacebookCallbackForm: React.FC = () => {
           return;
         }
 
+        // Check if token is in URL (some backends pass it this way)
+        const token = searchParams.get("token");
+        if (token) {
+          localStorage.setItem("auth_token", token);
+        }
+
+        // Get user data and sync auth context
+        const backendBaseUrl =
+          process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
+        const res = await fetch(`${backendBaseUrl}/api/auth/user/me`, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${
+              token || localStorage.getItem("auth_token")
+            }`,
+          },
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to get user data after Facebook login");
+        }
+
+        const userData = await res.json();
+        localStorage.setItem("user", JSON.stringify(userData));
+
         // Sync auth context
         await checkAuth();
 

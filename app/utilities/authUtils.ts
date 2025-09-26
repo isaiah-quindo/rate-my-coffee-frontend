@@ -36,6 +36,7 @@ class AuthService {
         ...defaultHeaders,
         ...options.headers,
       },
+      credentials: "include", // Always include credentials
     };
 
     try {
