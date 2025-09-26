@@ -30,13 +30,10 @@ const FacebookCallbackForm: React.FC = () => {
 
         // Use the full query string (?code=...&state=...&redirect=...)
         const qs = window.location.search; // includes leading '?'
-        const backendBaseUrl =
-          process.env.NEXT_PUBLIC_API_URL ||
-          process.env.NEXT_PUBLIC_BACKEND_URL ||
-          "http://localhost:8000";
+        const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
         const res = await fetch(
-          `${backendBaseUrl}/api/auth/facebook/callback${qs}`,
+          `${backendBaseUrl}/auth/facebook/callback${qs}`,
           {
             method: "GET",
             headers: { Accept: "application/json" },
