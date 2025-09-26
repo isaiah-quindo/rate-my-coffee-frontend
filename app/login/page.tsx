@@ -40,7 +40,11 @@ const LoginForm: React.FC = () => {
       } catch {}
 
       // Facebook requires exact redirect_uri; do not append dynamic params here
-      const callbackUrl = `${window.location.origin}/api/auth/facebook/callback`;
+      // Backend callback URL with frontend redirect
+      const frontendRedirect = `${window.location.origin}/profile`;
+      const callbackUrl = `${backendBaseUrl}/api/auth/facebook/callback?redirect_to=${encodeURIComponent(
+        frontendRedirect
+      )}`;
 
       // Call the backend to get the Facebook OAuth URL
       const response = await fetch(
