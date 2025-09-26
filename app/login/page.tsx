@@ -27,7 +27,7 @@ const LoginForm: React.FC = () => {
     process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000";
 
   const handleFacebookLogin = async () => {
-    window.location.href = `${backendBaseUrl}/auth/facebook/redirect`;
+    window.location.href = `${backendBaseUrl}/api/auth/facebook/redirect`;
     return redirect(`/auth/success`);
   };
 
