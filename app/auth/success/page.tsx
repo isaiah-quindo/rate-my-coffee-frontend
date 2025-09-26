@@ -1,10 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 
-const SuccessPage = () => {
+// Loading component
+const LoadingSpinner = () => (
+  <div className="flex min-h-screen items-center justify-center">
+    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600"></div>
+  </div>
+);
+
+// Main content component that uses searchParams
+const SuccessContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { checkAuth } = useAuth();
@@ -92,6 +100,15 @@ const SuccessPage = () => {
         )}
       </div>
     </div>
+  );
+};
+
+// Wrap the content component with Suspense
+const SuccessPage = () => {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <SuccessContent />
+    </Suspense>
   );
 };
 
