@@ -28,46 +28,6 @@ const FacebookCallbackForm: React.FC = () => {
           return;
         }
 
-        // Use the full query string (?code=...&state=...&redirect=...)
-        const qs = window.location.search; // includes leading '?'
-        const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-
-        const res = await fetch(
-          `${backendBaseUrl}/api/auth/facebook/callback${qs}`,
-          {
-            method: "GET",
-            headers: { Accept: "application/json" },
-            credentials: "include",
-          }
-        );
-
-        if (!res.ok) {
-          // Try parse JSON error, else plain text
-          let errMsg = "Facebook auth failed";
-          try {
-            const errText = await res.text();
-            const cleanedErr = errText.replace(/^\uFEFF/, "").trim();
-            try {
-              const errData = JSON.parse(cleanedErr);
-              if (errData?.message) errMsg = errData.message;
-            } catch {
-              if (cleanedErr) errMsg = cleanedErr;
-            }
-          } catch {}
-          throw new Error(errMsg);
-        }
-
-        // Success
-        const text = await res.text();
-        const cleaned = text.replace(/^\uFEFF/, "").trim();
-        const data = JSON.parse(cleaned);
-        if (data?.token) {
-          localStorage.setItem("auth_token", data.token);
-        }
-        if (data?.user) {
-          localStorage.setItem("user", JSON.stringify(data.user));
-        }
-
         // Sync auth context
         await checkAuth();
 

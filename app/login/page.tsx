@@ -6,8 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { LoginRequest } from "@/types/auth";
 import { AuthError } from "@/app/utilities/authUtils";
-import Header from "../components/Header";
 import { KeyRound, Mail, CheckCircle2, Facebook } from "lucide-react";
+import Header from "../components/Header";
+
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState<LoginRequest>({
