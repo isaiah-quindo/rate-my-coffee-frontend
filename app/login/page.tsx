@@ -42,9 +42,11 @@ const LoginForm: React.FC = () => {
       // Facebook requires exact redirect_uri; do not append dynamic params here
       // Backend callback URL with frontend redirect
       const frontendRedirect = `${window.location.origin}/profile`;
-      const callbackUrl = `${backendBaseUrl}/api/auth/facebook/callback?redirect_to=${encodeURIComponent(
+      // Use the backend domain for Facebook's redirect
+      const callbackUrl = `https://api.ratemycoffee.ph/auth/facebook/callback?redirect_to=${encodeURIComponent(
         frontendRedirect
       )}`;
+      console.log("Using callback URL:", callbackUrl);
 
       // Call the backend to get the Facebook OAuth URL
       const response = await fetch(
