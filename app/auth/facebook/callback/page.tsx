@@ -28,81 +28,43 @@ const FacebookCallbackForm: React.FC = () => {
           return;
         }
 
-        // Get the code from Facebook
-        const code = searchParams.get("code");
-        if (!code) {
+        // Get token and user from URL params (backend redirected here)
+        const token = searchParams.get("token");
+        const userJson = searchParams.get("user");
+
+        if (!token || !userJson) {
           setStatus("error");
-          setMessage("No authorization code received from Facebook");
+          setMessage("No authentication data received");
           return;
         }
 
-        console.log("Received code from Facebook:", code);
+        try {
+          // Parse user data
+          const user = JSON.parse(userJson);
+          console.log("Received user data:", user);
 
-        // Exchange code for token with our backend
-        const backendBaseUrl =
-          process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
-        const res = await fetch(
-          `${backendBaseUrl}/api/auth/facebook/callback?code=${encodeURIComponent(
-            code
-          )}`,
-          {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-            },
-            credentials: "include",
-          }
-        );
+          // Store auth data
+          localStorage.setItem("auth_token", token);
+          localStorage.setItem("user", JSON.stringify(user));
 
-        if (!res.ok) {
-          const errorText = await res.text();
-          console.error("Backend exchange failed:", errorText);
-          try {
-            // Try to parse error as JSON
-            const cleanedError = errorText.replace(/^\uFEFF/, "").trim();
-            const errorData = JSON.parse(cleanedError);
-            throw new Error(
-              errorData.message || "Failed to complete Facebook login"
-            );
-          } catch (parseError) {
-            // If can't parse JSON, use raw error text
-            throw new Error(`Failed to complete Facebook login: ${errorText}`);
-          }
+          // Small delay to ensure token is stored
+          await new Promise((resolve) => setTimeout(resolve, 100));
+
+          // Update auth context
+          await checkAuth();
+
+          setStatus("success");
+          setMessage("Successfully logged in with Facebook!");
+
+          // Redirect after short delay
+          setTimeout(() => {
+            const redirectTo = searchParams.get("redirect") || "/";
+            router.replace(redirectTo);
+          }, 600);
+        } catch (parseError) {
+          console.error("Failed to parse user data:", parseError);
+          throw new Error("Invalid authentication data received");
         }
-
-        // Parse response and handle BOM character
-        const responseText = await res.text();
-        console.log("Raw response:", responseText);
-
-        // Remove BOM and any leading/trailing whitespace
-        const cleanedText = responseText.replace(/^\uFEFF/, "").trim();
-        console.log("Cleaned response:", cleanedText);
-
-        const data = JSON.parse(cleanedText);
-
-        // Only proceed if we got both token and user
-        if (!data.token || !data.user) {
-          throw new Error("Incomplete authentication data received");
-        }
-
-        // Store auth data
-        localStorage.setItem("auth_token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-        // Small delay to ensure token is stored before checking auth
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        // Update auth context
-        await checkAuth();
-
-        setStatus("success");
-        setMessage("Successfully logged in with Facebook!");
-
-        // Redirect after short delay
-        setTimeout(() => {
-          const redirectTo = searchParams.get("redirect") || "/";
-          router.replace(redirectTo);
-        }, 600);
       } catch (error) {
         console.error("Facebook callback error:", error);
         setStatus("error");
