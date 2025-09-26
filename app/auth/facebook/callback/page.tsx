@@ -11,18 +11,15 @@ const FacebookCallbackForm: React.FC = () => {
     "loading"
   );
   const [message, setMessage] = useState<string>("");
-  const { facebookCallback } = useAuth();
+  const { checkAuth } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        // Get the code from URL parameters
-        const code = searchParams.get("code");
         const error = searchParams.get("error");
         const errorDescription = searchParams.get("error_description");
-
         if (error) {
           setStatus("error");
           setMessage(
@@ -31,23 +28,61 @@ const FacebookCallbackForm: React.FC = () => {
           return;
         }
 
-        if (!code) {
-          setStatus("error");
-          setMessage("No authorization code received from Facebook");
-          return;
+        // Use the full query string (?code=...&state=...&redirect=...)
+        const qs = window.location.search; // includes leading '?'
+        const backendBaseUrl =
+          process.env.NEXT_PUBLIC_API_URL ||
+          process.env.NEXT_PUBLIC_BACKEND_URL ||
+          "http://localhost:8000";
+
+        const res = await fetch(
+          `${backendBaseUrl}/api/auth/facebook/callback${qs}`,
+          {
+            method: "GET",
+            headers: { Accept: "application/json" },
+          }
+        );
+
+        if (!res.ok) {
+          // Try parse JSON error, else plain text
+          let errMsg = "Facebook auth failed";
+          try {
+            const errData = await res.json();
+            if (errData?.message) errMsg = errData.message;
+          } catch {
+            try {
+              const txt = await res.text();
+              if (txt) errMsg = txt;
+            } catch {}
+          }
+          throw new Error(errMsg);
         }
 
-        // Use the AuthContext's facebookCallback method
-        await facebookCallback(code);
+        // Success
+        const data = await res.json();
+        if (data?.token) {
+          localStorage.setItem("auth_token", data.token);
+        }
+        if (data?.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+        }
+
+        // Sync auth context
+        await checkAuth();
 
         setStatus("success");
         setMessage("Successfully logged in with Facebook!");
 
-        // Redirect after showing success message
+        // Redirect after short delay
         setTimeout(() => {
-          const redirectTo = searchParams.get("redirect") || "/";
-          router.push(redirectTo);
-        }, 2000);
+          const redirectQuery = searchParams.get("redirect");
+          const redirectStored =
+            typeof window !== "undefined"
+              ? localStorage.getItem("redirect_after_login")
+              : null;
+          const redirectTo = redirectQuery || redirectStored || "/";
+          router.replace(redirectTo);
+        }, 600);
       } catch (error) {
         console.error("Facebook callback error:", error);
         setStatus("error");
@@ -60,7 +95,7 @@ const FacebookCallbackForm: React.FC = () => {
     };
 
     handleCallback();
-  }, [searchParams, facebookCallback, router]);
+  }, [searchParams, checkAuth, router]);
 
   const getStatusIcon = () => {
     switch (status) {
