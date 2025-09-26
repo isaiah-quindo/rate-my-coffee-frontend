@@ -57,11 +57,28 @@ const FacebookCallbackForm: React.FC = () => {
         if (!res.ok) {
           const errorText = await res.text();
           console.error("Backend callback failed:", errorText);
-          throw new Error("Failed to complete Facebook login");
+          try {
+            // Try to parse error as JSON
+            const cleanedError = errorText.replace(/^\uFEFF/, "").trim();
+            const errorData = JSON.parse(cleanedError);
+            throw new Error(
+              errorData.message || "Failed to complete Facebook login"
+            );
+          } catch (parseError) {
+            // If can't parse JSON, use raw error text
+            throw new Error(`Failed to complete Facebook login: ${errorText}`);
+          }
         }
 
-        // Parse response and store token/user
-        const data = await res.json();
+        // Parse response and handle BOM character
+        const responseText = await res.text();
+        console.log("Raw response:", responseText);
+
+        // Remove BOM and any leading/trailing whitespace
+        const cleanedText = responseText.replace(/^\uFEFF/, "").trim();
+        console.log("Cleaned response:", cleanedText);
+
+        const data = JSON.parse(cleanedText);
         if (data.token) {
           localStorage.setItem("auth_token", data.token);
         }
