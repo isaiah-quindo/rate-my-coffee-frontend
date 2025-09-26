@@ -127,7 +127,7 @@ class AuthService {
 
   async facebookCallback(code: string): Promise<AuthResponse> {
     const response = await this.makeRequest<AuthResponse>('/api/auth/facebook/callback', {
-      method: 'POST',
+      method: 'GET',
       body: JSON.stringify({ code }),
     });
 
