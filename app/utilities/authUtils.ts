@@ -130,6 +130,7 @@ class AuthService {
       `/api/auth/facebook/callback?code=${encodeURIComponent(code)}`,
       {
         method: 'GET',
+        headers: { Accept: 'application/json'},
       }
     );
 
