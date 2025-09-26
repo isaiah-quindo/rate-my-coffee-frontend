@@ -42,15 +42,15 @@ const FacebookCallbackForm: React.FC = () => {
         const backendBaseUrl =
           process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
         const res = await fetch(
-          `${backendBaseUrl}/api/auth/facebook/exchange-token`,
+          `${backendBaseUrl}/api/auth/facebook/callback?code=${encodeURIComponent(
+            code
+          )}`,
           {
-            method: "POST",
+            method: "GET",
             headers: {
-              "Content-Type": "application/json",
               Accept: "application/json",
             },
             credentials: "include",
-            body: JSON.stringify({ code }),
           }
         );
 
