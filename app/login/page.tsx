@@ -41,6 +41,7 @@ const LoginForm: React.FC = () => {
 
       // Facebook requires exact redirect_uri; do not append dynamic params here
 
+      // Use frontend callback URL
       const callbackUrl = `${window.location.origin}/auth/facebook/callback`;
       console.log("Using callback URL:", callbackUrl);
 

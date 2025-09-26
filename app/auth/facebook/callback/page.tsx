@@ -38,25 +38,25 @@ const FacebookCallbackForm: React.FC = () => {
 
         console.log("Received code from Facebook:", code);
 
-        // Forward the code to the backend
+        // Exchange code for token with our backend
         const backendBaseUrl =
           process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000";
         const res = await fetch(
-          `${backendBaseUrl}/api/auth/facebook/callback?code=${encodeURIComponent(
-            code
-          )}`,
+          `${backendBaseUrl}/api/auth/facebook/exchange-token`,
           {
-            method: "GET",
+            method: "POST",
             headers: {
+              "Content-Type": "application/json",
               Accept: "application/json",
             },
             credentials: "include",
+            body: JSON.stringify({ code }),
           }
         );
 
         if (!res.ok) {
           const errorText = await res.text();
-          console.error("Backend callback failed:", errorText);
+          console.error("Backend exchange failed:", errorText);
           try {
             // Try to parse error as JSON
             const cleanedError = errorText.replace(/^\uFEFF/, "").trim();
