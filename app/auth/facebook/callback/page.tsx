@@ -79,12 +79,18 @@ const FacebookCallbackForm: React.FC = () => {
         console.log("Cleaned response:", cleanedText);
 
         const data = JSON.parse(cleanedText);
-        if (data.token) {
-          localStorage.setItem("auth_token", data.token);
+
+        // Only proceed if we got both token and user
+        if (!data.token || !data.user) {
+          throw new Error("Incomplete authentication data received");
         }
-        if (data.user) {
-          localStorage.setItem("user", JSON.stringify(data.user));
-        }
+
+        // Store auth data
+        localStorage.setItem("auth_token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        // Small delay to ensure token is stored before checking auth
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
         // Update auth context
         await checkAuth();
@@ -100,11 +106,11 @@ const FacebookCallbackForm: React.FC = () => {
       } catch (error) {
         console.error("Facebook callback error:", error);
         setStatus("error");
-        setMessage(
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred"
-        );
+
+        // Don't show technical errors to the user
+        const userMessage =
+          "Unable to complete Facebook login. Please try again.";
+        setMessage(userMessage);
       }
     };
 
