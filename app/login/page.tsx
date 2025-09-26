@@ -33,12 +33,14 @@ const LoginForm: React.FC = () => {
     try {
       // Get the current redirect parameter to pass it along
       const redirectTo = searchParams.get("redirect") || "/";
-      const callbackUrl = `${
-        window.location.origin
-      }/auth/facebook/callback?redirect=${encodeURIComponent(redirectTo)}`;
 
-      console.log("Attempting Facebook login with callback URL:", callbackUrl);
-      console.log("Backend URL:", backendBaseUrl);
+      // Persist intended redirect for after successful login
+      try {
+        localStorage.setItem("redirect_after_login", redirectTo);
+      } catch {}
+
+      // Facebook requires exact redirect_uri; do not append dynamic params here
+      const callbackUrl = `${window.location.origin}/auth/facebook/callback`;
 
       // Call the backend to get the Facebook OAuth URL
       const response = await fetch(
@@ -55,9 +57,6 @@ const LoginForm: React.FC = () => {
         }
       );
 
-      console.log("Response status:", response.status);
-      console.log("Response headers:", response.headers);
-
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Response error:", errorText);
@@ -67,14 +66,8 @@ const LoginForm: React.FC = () => {
       }
 
       const responseText = await response.text();
-      console.log("Raw response text:", responseText);
-
-      // Remove BOM and any leading/trailing whitespace
       const cleanedText = responseText.replace(/^\uFEFF/, "").trim();
-      console.log("Cleaned response text:", cleanedText);
-
       const data = JSON.parse(cleanedText);
-      console.log("Parsed response data:", data);
 
       if (data.url) {
         // Redirect to the Facebook OAuth URL
