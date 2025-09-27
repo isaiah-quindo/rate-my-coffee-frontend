@@ -47,6 +47,12 @@ export default function GoogleLoginButton() {
         console.log("Login Failed");
       }}
       type="standard"
+      logo_alignment="center"
+      text="signin_with"
+      shape="rectangular"
+      theme="outline"
+      size="large"
+      width="100%"
     />
   );
 }
