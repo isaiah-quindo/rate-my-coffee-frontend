@@ -49,7 +49,7 @@ class AuthService {
           const cleanedErrorText = errorText.replace(/^\uFEFF/, '').trim();
           const errorData = JSON.parse(cleanedErrorText);
           throw new AuthError(errorData.message || 'An error occurred', errorData.errors);
-        } catch (parseError) {
+        } catch {
           throw new AuthError(`HTTP ${response.status}: ${response.statusText}`);
         }
       }
@@ -124,22 +124,6 @@ class AuthService {
 
   async getCurrentUser(): Promise<User> {
     return this.makeRequest<User>('/api/auth/user/me');
-  }
-
-  async facebookCallback(code: string): Promise<AuthResponse> {
-    const response = await this.makeRequest<AuthResponse>(
-      `/api/auth/facebook/callback?code=${encodeURIComponent(code)}`,
-      {
-        method: 'GET',
-        headers: { Accept: 'application/json'},
-      }
-    );
-
-    if (response.token) {
-      this.setToken(response.token);
-    }
-
-    return response;
   }
 
   isAuthenticated(): boolean {

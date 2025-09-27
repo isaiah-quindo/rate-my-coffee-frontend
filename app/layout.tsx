@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import PrelineScriptWrapper from "./components/PrelineScriptWrapper";
 import { AuthProvider } from "./contexts/AuthContext";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -33,7 +34,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID || ""}>
+          <AuthProvider>{children}</AuthProvider>
+        </GoogleOAuthProvider>
         <PrelineScriptWrapper />
       </body>
       <GoogleAnalytics gaId="G-CPFDQ1RMRV" />

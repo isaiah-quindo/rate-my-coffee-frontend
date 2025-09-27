@@ -2,12 +2,13 @@
 
 import React, { useState, Suspense } from "react";
 import Link from "next/link";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { LoginRequest } from "@/types/auth";
 import { AuthError } from "@/app/utilities/authUtils";
-import { KeyRound, Mail, CheckCircle2, Facebook } from "lucide-react";
+import { KeyRound, Mail, CheckCircle2 } from "lucide-react";
 import Header from "../components/Header";
+import GoogleLoginButton from "../components/GoogleLogin";
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState<LoginRequest>({
@@ -22,14 +23,6 @@ const LoginForm: React.FC = () => {
   const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const backendBaseUrl =
-    process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000";
-
-  const handleFacebookLogin = async () => {
-    window.location.href = `${backendBaseUrl}/api/auth/facebook/redirect`;
-    return redirect(`/auth/success`);
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -104,14 +97,7 @@ const LoginForm: React.FC = () => {
           </div>
 
           <div>
-            <button
-              type="button"
-              onClick={handleFacebookLogin}
-              className="w-full flex justify-center items-center gap-2 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-            >
-              <Facebook size={16} />
-              Continue with Facebook
-            </button>
+            <GoogleLoginButton />
           </div>
 
           <div className="relative pt-1">

@@ -14,6 +14,7 @@
     "@preline/range-slider": "^3.2.3",
     "@preline/scroll-nav": "^3.2.3",
     "@preline/stepper": "^3.2.3",
+    "@react-oauth/google": "^0.12.2",
     "datatables.net": "^2.3.3",
     "dropzone": "^6.0.0-beta.2",
     "jquery": "^3.7.1",

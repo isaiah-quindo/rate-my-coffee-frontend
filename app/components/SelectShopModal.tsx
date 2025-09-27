@@ -116,7 +116,7 @@ export default function SelectShopModal({
                   <input
                     className="py-2.5 ps-4 pe-9 block w-full border border-gray-300 rounded-lg text-sm focus:border-purple-500 focus:ring-purple-500"
                     type="text"
-                    id="modal-city-combobox-input"
+                    id="select-shop-modal-city-input"
                     placeholder="Start typing your city..."
                     value={citySearchTerm}
                     onChange={handleCityInputChange}
