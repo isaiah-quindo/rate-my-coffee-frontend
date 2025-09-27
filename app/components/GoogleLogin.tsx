@@ -41,7 +41,7 @@ export default function GoogleLoginButton() {
   };
 
   return (
-    <div className="google-btn w-full">
+    <div className="w-full flex justify-center">
       <GoogleLogin
         onSuccess={handleSuccess}
         onError={() => {

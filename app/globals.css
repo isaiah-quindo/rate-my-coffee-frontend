@@ -77,11 +77,3 @@ body {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
-
-.google-btn iframe  {
-  width: 100% !important;
-}
-
-.google-btn iframe body{
-  text-align: center !important;
-}
