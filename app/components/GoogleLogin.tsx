@@ -41,11 +41,14 @@ export default function GoogleLoginButton() {
   };
 
   return (
-    <GoogleLogin
-      onSuccess={handleSuccess}
-      onError={() => {
-        console.log("Login Failed");
-      }}
-    />
+    <div className="w-full">
+      <GoogleLogin
+        width="100%"
+        onSuccess={handleSuccess}
+        onError={() => {
+          console.log("Login Failed");
+        }}
+      />
+    </div>
   );
 }
