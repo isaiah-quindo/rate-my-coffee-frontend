@@ -12,7 +12,13 @@ async function getPosts() {
         "slug": slug.current,
         publishedAt,
         mainImage,
-        body,
+        body[]{
+          ...,
+          _type == "image" => {
+            ...,
+            asset->
+          }
+        },
         author-> {
           name,
           image

@@ -9,12 +9,26 @@ const truncateText = (text: string, maxWords: number = 30) => {
   return text;
 };
 
+// Track if we've rendered the first paragraph
+let hasRenderedFirstParagraph = false;
+
 export const cardPortableTextComponents: Partial<PortableTextComponents> = {
   // Only render the first block of text
   block: {
     normal: ({ children }) => {
-      const text = children?.toString() || "";
-      return <p className="text-gray-600 line-clamp-2">{truncateText(text)}</p>;
+      // Reset flag at the start of rendering
+      if (!hasRenderedFirstParagraph) {
+        hasRenderedFirstParagraph = true;
+        const text = children?.toString() || "";
+        // Reset for next render
+        setTimeout(() => {
+          hasRenderedFirstParagraph = false;
+        }, 0);
+        return (
+          <p className="text-gray-600 line-clamp-2">{truncateText(text)}</p>
+        );
+      }
+      return null;
     },
     // Don't render other block types in the card
     h1: () => null,

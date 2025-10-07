@@ -7,18 +7,35 @@ import { SanityImage, SanityLink } from "@/types/sanity";
 
 export const portableTextComponents: Partial<PortableTextComponents> = {
   types: {
-    image: ({ value }: { value: SanityImage }) => {
-      return (
-        <div className="relative w-full">
-          <Image
-            src={urlFor(value).url()}
-            alt={value.alt || " "}
-            width={500}
-            height={500}
-            className="w-full h-auto rounded-xl"
-          />
-        </div>
-      );
+    image: ({ value }: { value: any }) => {
+      // Check if the image has a valid asset (either reference or expanded)
+      if (!value?.asset) {
+        console.warn("Image missing asset:", value);
+        return null;
+      }
+
+      try {
+        const imageUrl = urlFor(value).url();
+        return (
+          <div className="relative w-full my-8">
+            <Image
+              src={imageUrl}
+              alt={value.alt || "Blog post image"}
+              width={800}
+              height={600}
+              className="w-full h-auto rounded-xl"
+            />
+            {value.alt && (
+              <p className="text-sm text-gray-500 text-center mt-2 italic">
+                {value.alt}
+              </p>
+            )}
+          </div>
+        );
+      } catch (error) {
+        console.error("Error rendering image:", error, value);
+        return null;
+      }
     },
   },
   marks: {

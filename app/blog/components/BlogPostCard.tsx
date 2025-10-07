@@ -36,7 +36,7 @@ const BlogPostCard = ({ data }: { data: BlogPosts }) => {
             {format(new Date(data.publishedAt), "MMM d, yyyy")}
           </p>
         )}
-        <div className="prose block">
+        <div className="prose block line-clamp-2">
           <PortableText
             value={data.body}
             components={cardPortableTextComponents}

@@ -65,7 +65,13 @@ async function getPostBySlug(slug: string): Promise<BlogPosts | null> {
       description
     },
     mainImage,
-    body,
+    body[]{
+      ...,
+      _type == "image" => {
+        ...,
+        asset->
+      }
+    },
     "excerpt": array::join(string::split((pt::text(body)), "")[0..255], "") + "..."
 }`;
   const data = await sanityClient.fetch(query, { slug });

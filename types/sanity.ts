@@ -6,6 +6,10 @@ export interface SanityImage {
   asset: {
     _ref: string;
     _type: "reference";
+  } | {
+    _id: string;
+    url: string;
+    [key: string]: any;
   };
   alt?: string;
 }
