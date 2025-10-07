@@ -17,6 +17,7 @@
     "@preline/stepper": "^3.2.3",
     "@react-oauth/google": "^0.12.2",
     "@sanity/image-url": "^1.2.0",
+    "@sanity/vision": "^4.10.2",
     "datatables.net": "^2.3.3",
     "dropzone": "^6.0.0-beta.2",
     "jquery": "^3.7.1",
