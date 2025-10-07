@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SelectShopModal from "@/app/components/SelectShopModal";
 import { CoffeeShop } from "@/types/coffeeShop";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, BookOpenIcon } from "lucide-react";
 import { useAuth } from "@/app/contexts/AuthContext";
 
 const Header = ({
@@ -118,7 +118,13 @@ const Header = ({
                   </svg>
                   Home
                 </a> */}
-
+                <Link
+                  href="/blog"
+                  className="p-2 flex items-center gap-x-2 text-sm text-gray-800 hover:text-gray-500 focus:outline-hidden focus:text-gray-500"
+                >
+                  <BookOpenIcon className="w-4 h-4" />
+                  Blog
+                </Link>
                 <div className="relative flex flex-wrap items-center gap-x-2 md:ps-2.5 mt-1 md:mt-0 md:ms-1.5">
                   {user ? (
                     <div className="flex flex-row gap-2">

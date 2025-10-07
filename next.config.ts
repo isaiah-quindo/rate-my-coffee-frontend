@@ -6,7 +6,13 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "vzjinygnxjnqbsqwyyjq.supabase.co",
+        port: "",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+        port: "",
+      }
     ],
   },
   async headers() {
