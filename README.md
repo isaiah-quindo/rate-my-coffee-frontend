@@ -2,7 +2,34 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### 1. Environment Setup
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```bash
+# Backend API
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+# Sanity CMS Configuration
+# Get these from https://www.sanity.io/manage
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
+NEXT_PUBLIC_SANITY_DATASET=production
+```
+
+### 2. Configure Sanity CORS
+
+To use Sanity Studio, you need to add your local development URL to allowed CORS origins:
+
+1. Go to https://www.sanity.io/manage
+2. Select your project
+3. Navigate to **API** → **CORS Origins**
+4. Click **"Add CORS origin"**
+5. Add `http://localhost:3000`
+6. Check **"Allow credentials"**
+7. Save
+
+### 3. Run the development server
 
 ```bash
 npm run dev

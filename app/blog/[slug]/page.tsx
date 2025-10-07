@@ -1,4 +1,3 @@
-import React from "react";
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import { BlogPosts } from "@/types/blogPosts";
@@ -10,13 +9,21 @@ import { portableTextComponents } from "@/app/lib/portableTextComponents";
 import BlogSidebar from "../components/BlogSidebar";
 import { CalendarIcon, TagIcon, UserIcon } from "lucide-react";
 import { Metadata, ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
 
 // Function to generate metadata
 export async function generateMetadata(
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: "Post not found | Rate My Coffee",
+    };
+  }
 
   // Get the parent metadata (optional)
   const previousImages = (await parent).openGraph?.images || [];
@@ -32,7 +39,7 @@ export async function generateMetadata(
       title: `${post.title} | Rate My Coffee`,
       description: post.excerpt || "Read this interesting coffee blog post",
       type: "article",
-      publishedTime: post.publishedAt,
+      publishedTime: post.publishedAt ?? undefined,
       authors: post.author?.name,
       images: [
         post.mainImage ? urlFor(post.mainImage).url() : "",
@@ -51,8 +58,8 @@ export async function generateMetadata(
   };
 }
 
-async function getPostBySlug(slug: string) {
-  const query = `*[_type == 'post' && slug.current == '${slug}'] {
+async function getPostBySlug(slug: string): Promise<BlogPosts | null> {
+  const query = `*[_type == 'post' && slug.current == $slug][0]{
     title,
     publishedAt,
     author->{
@@ -67,8 +74,8 @@ async function getPostBySlug(slug: string) {
     mainImage,
     body,
     "excerpt": array::join(string::split((pt::text(body)), "")[0..255], "") + "..."
-}[0]`;
-  const data = await sanityClient.fetch(query);
+}`;
+  const data = await sanityClient.fetch(query, { slug });
   return data;
 }
 
@@ -78,7 +85,12 @@ const BlogPostPage = async ({
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await params;
-  const data: BlogPosts = await getPostBySlug(slug);
+  const data: BlogPosts | null = await getPostBySlug(slug);
+
+  if (!data) {
+    notFound();
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />

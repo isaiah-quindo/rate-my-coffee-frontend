@@ -31,7 +31,7 @@ import { convertTo12Hour } from "@/app/utilities/utils";
 import PaginatedPosts from "@/app/components/PaginatedPosts";
 
 type PageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 async function fetchShopBySlug(slug: string): Promise<CoffeeShop> {
@@ -353,10 +353,10 @@ export default async function CoffeeShopPage({ params }: PageProps) {
                                     h.is_24h
                                       ? "Open 24h"
                                       : h.open_time && h.close_time
-                                      ? `${convertTo12Hour(
-                                          h.open_time
-                                        )} - ${convertTo12Hour(h.close_time)}`
-                                      : "Closed"
+                                        ? `${convertTo12Hour(
+                                            h.open_time
+                                          )} - ${convertTo12Hour(h.close_time)}`
+                                        : "Closed"
                                   );
                                   return parts.join(", ") || "Closed";
                                 })()

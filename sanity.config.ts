@@ -9,4 +9,6 @@ export default defineConfig({
   basePath: "/studio",              // ⚠️ important — mount point
   plugins: [deskTool()],
   schema: { types: schemaTypes as any },
+  title: "Rate My Coffee Studio",
+  apiVersion: "2024-01-01",
 });

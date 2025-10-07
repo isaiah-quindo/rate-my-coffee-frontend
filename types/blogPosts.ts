@@ -11,4 +11,5 @@ export interface BlogPosts {
     author: Author | null;
     categories: any[] | null;
     body: any | null;
+    excerpt?: string | null;
 }
