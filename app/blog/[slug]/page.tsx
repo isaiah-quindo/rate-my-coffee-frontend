@@ -1,12 +1,12 @@
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
+import Image from "next/image";
+import BlogSidebar from "../components/BlogSidebar";
 import { BlogPosts } from "@/types/blogPosts";
 import { sanityClient, urlFor } from "@/app/lib/sanity";
 import { format } from "date-fns";
 import { PortableText } from "@portabletext/react";
-import Image from "next/image";
 import { portableTextComponents } from "@/app/lib/portableTextComponents";
-import BlogSidebar from "../components/BlogSidebar";
 import { CalendarIcon, TagIcon, UserIcon } from "lucide-react";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
@@ -25,11 +25,8 @@ export async function generateMetadata(
     };
   }
 
-  // Get the parent metadata (optional)
-  const previousImages = (await parent).openGraph?.images || [];
-
   return {
-    title: `${post.title} | Rate My Coffee`,
+    title: `${post.title} | RateMyCoffee`,
     description: post.excerpt || "Read this interesting coffee blog post",
     authors: post.author ? [{ name: post.author.name }] : [],
     keywords: post.categories
@@ -39,12 +36,8 @@ export async function generateMetadata(
       title: `${post.title} | Rate My Coffee`,
       description: post.excerpt || "Read this interesting coffee blog post",
       type: "article",
-      publishedTime: post.publishedAt ?? undefined,
       authors: post.author?.name,
-      images: [
-        post.mainImage ? urlFor(post.mainImage).url() : "",
-        ...previousImages,
-      ],
+      images: urlFor(post.mainImage).url(),
       siteName: "Rate My Coffee",
       locale: "en_US",
     },
@@ -52,7 +45,7 @@ export async function generateMetadata(
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt || "Read this interesting coffee blog post",
-      images: post.mainImage ? [urlFor(post.mainImage).url()] : [],
+      images: urlFor(post.mainImage).url(),
       creator: post.author?.name,
     },
   };
