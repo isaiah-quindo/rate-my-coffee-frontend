@@ -93,7 +93,7 @@ const BlogPostPage = async ({
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="flex flex-col flex-1 gap-4 w-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-8">
+      <div className="blog-post-page flex flex-col flex-1 gap-4 w-full max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-8">
         <div className="flex flex-col sm:flex-row gap-8">
           <div className="flex flex-col gap-4 w-full sm:w-2/3">
             <h1 className="text-2xl font-semibold text-gray-800">
