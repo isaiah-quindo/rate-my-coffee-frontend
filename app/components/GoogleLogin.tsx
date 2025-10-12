@@ -31,13 +31,13 @@ export default function GoogleLoginButton() {
                 setErrorMessage("Login Failed. Please try again.");
                 throw new Error(data.message || "Authentication failed");
             }
+            setSuccessMessage("You have successfully logged in!");
 
             // Store the token where the app expects it
             localStorage.setItem("auth_token", data.token);
 
             // Refresh auth context immediately
             await checkAuth();
-            setSuccessMessage("You have successfully logged in!");
 
             // Redirect to dashboard
             router.push("/");
