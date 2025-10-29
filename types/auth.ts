@@ -1,36 +1,37 @@
 export interface User {
-  id: number;
-  name: string;
-  email: string;
-  email_verified_at?: string;
-  created_at: string;
-  updated_at: string;
+    id: number;
+    name: string;
+    email: string;
+    email_verified_at?: string;
+    created_at: string;
+    updated_at: string;
+    google_id?: string | null;
+    is_google_user?: boolean;
 }
 
 export interface LoginRequest {
-  email: string;
-  password: string;
+    email: string;
+    password: string;
 }
 
 export interface RegisterRequest {
-  name: string;
-  email: string;
-  password: string;
-  password_confirmation: string;
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
 }
 
 export interface AuthResponse {
-  user: User;
-  token?: string;
-  message?: string;
+    user: User;
+    token?: string;
+    message?: string;
 }
 
-
 export interface AuthContextType {
-  user: User | null;
-  isLoading: boolean;
-  login: (credentials: LoginRequest) => Promise<void>;
-  register: (userData: RegisterRequest) => Promise<void>;
-  logout: () => Promise<void>;
-  checkAuth: () => Promise<void>;
+    user: User | null;
+    isLoading: boolean;
+    login: (credentials: LoginRequest) => Promise<void>;
+    register: (userData: RegisterRequest) => Promise<void>;
+    logout: () => Promise<void>;
+    checkAuth: () => Promise<void>;
 }
