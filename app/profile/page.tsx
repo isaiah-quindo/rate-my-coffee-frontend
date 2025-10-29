@@ -82,12 +82,13 @@ const ProfilePage = () => {
         e.preventDefault();
         setIsSubmitting(true);
         setErrors({});
+        const BASE = process.env.NEXT_PUBLIC_BACKEND_URL as string;
 
         try {
             const endpoint =
                 activeTab === "info"
-                    ? "/api/auth/user/profile"
-                    : "/api/auth/user/password";
+                    ? `${BASE}/api/auth/user/me`
+                    : `${BASE}/api/auth/user/me`;
 
             const payload =
                 activeTab === "info"
@@ -100,7 +101,7 @@ const ProfilePage = () => {
                       };
 
             const response = await fetch(endpoint, {
-                method: "PUT",
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
