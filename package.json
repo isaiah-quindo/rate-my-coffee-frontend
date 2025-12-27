@@ -23,7 +23,7 @@
     "jquery": "^3.7.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.542.0",
-    "next": "15.5.2",
+    "next": "15.5.9",
     "next-sanity": "^11.4.2",
     "nouislider": "^15.8.1",
     "preline": "^3.2.3",
